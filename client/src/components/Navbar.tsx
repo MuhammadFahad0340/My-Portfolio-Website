@@ -41,8 +41,10 @@ const Navbar = () => {
 
           {/* Logo */}
           <div className={`flex items-center gap-3 overflow-hidden transition-all duration-500 ${isScrolled ? 'max-w-0 opacity-0' : 'max-w-xs opacity-100'}`}>
-            <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.5)] shrink-0">
-              <div className="w-0 h-0 border-t-[7px] border-t-transparent border-l-[10px] border-l-cyan-500 border-b-[7px] border-b-transparent ml-1" />
+            <div className="w-9 h-9 rounded-full bg-[#0f1424] border border-cyan-500/50 flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.4)] shrink-0">
+              <span className="text-cyan-400 font-mono font-bold text-[13px] tracking-tighter ml-[1px]">
+                &lt;/&gt;
+              </span>
             </div>
             <span className="text-base font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 shrink-0 hidden sm:block">
               MUHAMMAD FAHAD
