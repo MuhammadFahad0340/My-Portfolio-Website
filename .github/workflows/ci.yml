@@ -1,0 +1,56 @@
+name: CI (Code Quality Verification)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  # ─── FRONTEND CI JOB ───────────────────────────────────────────
+  client-ci:
+    name: Client CI (Next.js)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: client/package-lock.json
+
+      - name: Install Client Dependencies
+        run: npm ci
+        working-directory: client
+
+      - name: Run Next.js Linter
+        run: npm run lint
+        working-directory: client
+
+      - name: Test Build Next.js Production App
+        run: npm run build
+        working-directory: client
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+
+  # ─── BACKEND CI JOB ────────────────────────────────────────────
+  server-ci:
+    name: Server CI (Express.js)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install Server Dependencies
+        run: npm ci
+        working-directory: server

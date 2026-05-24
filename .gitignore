@@ -1,0 +1,40 @@
+# Dependency directories
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Next.js build output
+client/.next/
+client/out/
+
+# Production build outputs
+client/build/
+server/build/
+
+# Testing coverage
+coverage/
+client/coverage/
+
+# Environment files (must not be committed)
+.env
+.env.local
+.env.*
+client/.env*
+server/.env*
+
+# Vercel deployment files
+client/.vercel/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
