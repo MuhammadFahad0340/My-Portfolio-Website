@@ -12,8 +12,10 @@ const Footer = () => {
         {/* Left: Branding */}
         <div className="flex flex-col items-center md:items-start gap-2">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center shrink-0">
-              <div className="w-0 h-0 border-t-[5px] border-t-transparent border-l-[7px] border-l-cyan-500 border-b-[5px] border-b-transparent ml-0.5" />
+            <div className="w-6 h-6 rounded-full bg-[#0f1424] border border-cyan-500/50 flex items-center justify-center shadow-[0_0_10px_rgba(6,182,212,0.4)] shrink-0">
+              <span className="text-cyan-400 font-mono font-bold text-[10px] tracking-tighter ml-[1px]">
+                &lt;/&gt;
+              </span>
             </div>
             <span className="text-sm font-bold tracking-widest text-white">MUHAMMAD FAHAD</span>
           </div>
