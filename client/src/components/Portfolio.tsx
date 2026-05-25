@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import BorderGlow from './BorderGlow';
-import Galaxy from './Galaxy';
+import RippleGrid from './RippleGrid';
 
 const projectsData = [
   {
@@ -61,20 +61,19 @@ const Portfolio = () => {
 
   return (
     <section id="portfolio" className="w-full min-h-screen bg-transparent py-24 px-6 md:px-12 text-white font-sans relative overflow-hidden">
-      {/* Galaxy starfield background */}
+      {/* RippleGrid background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <Galaxy
+        <RippleGrid
+          enableRainbow={false}
+          gridColor="#06b6d4"
+          rippleIntensity={0.04}
+          gridSize={8}
+          gridThickness={20}
+          fadeDistance={1.8}
+          vignetteStrength={2.5}
+          glowIntensity={0.08}
+          opacity={0.25}
           mouseInteraction={false}
-          mouseRepulsion={false}
-          transparent={true}
-          hueShift={185}
-          saturation={0.7}
-          density={1.2}
-          glowIntensity={0.4}
-          twinkleIntensity={0.4}
-          rotationSpeed={0.03}
-          starSpeed={0.3}
-          speed={0.6}
         />
       </div>
       <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-cyan-900/10 rounded-full blur-[120px] pointer-events-none z-0" />
