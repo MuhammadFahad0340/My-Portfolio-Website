@@ -9,8 +9,8 @@ const AboutSummary = () => {
           Who is Muhammad Fahad?
         </h2>
         
-        <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl">
-          I am a passionate CS student at NUST, actively building highly scalable web systems and innovative mobile applications. With expertise spanning the MERN stack and Flutter, I focus on crafting premium, performant digital experiences.
+        <p className="text-gray-300 text-lg md:text-xl leading-relaxed mb-8 max-w-3xl">
+          I am a passionate CS graduate from NUST, actively building highly scalable web systems and innovative mobile applications. With expertise spanning the MERN stack and Flutter, I focus on crafting premium, performant digital experiences.
         </p>
 
         <Link href="/about" className="group relative px-8 py-3 font-semibold tracking-wide text-white overflow-hidden rounded-full border border-cyan-500 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all duration-300">

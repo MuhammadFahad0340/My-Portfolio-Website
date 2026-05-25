@@ -22,12 +22,12 @@ const About = () => {
           </h2>
           
           <h3 className="text-xl text-gray-300 font-semibold mb-6">
-            MERN Stack & Flutter Developer | CS Final Year — NUST
+            MERN Stack & Flutter Developer | CS Graduate — NUST
           </h3>
 
           <div className="space-y-6 text-gray-400 leading-relaxed font-medium">
             <p>
-              I am an impact-driven Full Stack Developer with 1+ year of professional experience, including a completed internship at Al-Raheem Technologies building production-ready systems. Currently, I am a final-year CS student at the National University of Sciences and Technology (NUST), ready to contribute from day one.
+              I am an impact-driven Full Stack Developer with 1+ year of professional experience, including a completed internship at Al-Raheem Technologies building production-ready systems. I am a Computer Science graduate from the National University of Sciences and Technology (NUST), ready to contribute from day one.
             </p>
             <p>
               My technical foundation includes strong expertise in the MERN stack, Flutter, and REST API integration. I have a proven ability to deliver highly responsive UIs, secure backends with role-based access control (RBAC), real-time databases, and scalable web architectures.
