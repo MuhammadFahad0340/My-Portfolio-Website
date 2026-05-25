@@ -3,7 +3,7 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaLinkedin, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa6';
+import { FiMail } from 'react-icons/fi';
 import RippleGrid from './RippleGrid';
 
 const WorldMap = dynamic(() => import('./WorldMap'), { ssr: false });
@@ -12,7 +12,6 @@ const Contact = () => {
   const [formData, setFormData] = React.useState({ name: '', email: '', phone: '', message: '' });
   const [status, setStatus] = React.useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = React.useState('');
-  const [focusedField, setFocusedField] = React.useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -73,73 +72,44 @@ const Contact = () => {
       <div className="max-w-6xl mx-auto relative z-10 flex flex-col lg:flex-row gap-16 lg:items-start">
         
         {/* ── LEFT SIDE: Info ── */}
-        <div className="flex-1 space-y-12">
+        <div className="flex-1 space-y-10">
           <div>
+            <div className="w-14 h-14 bg-[#111625] border border-white/5 shadow-2xl rounded-2xl flex items-center justify-center mb-8">
+              <FiMail size={24} className="text-cyan-400" />
+            </div>
             <motion.h2 
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400"
+              className="text-5xl md:text-6xl font-bold tracking-tight mb-6 text-white"
             >
-              Contact
+              Contact us
             </motion.h2>
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-gray-400 text-lg leading-relaxed max-w-md font-medium"
+              className="text-gray-400 text-lg leading-relaxed max-w-md"
             >
-              Have a project in mind or just want to say hi? Feel free to reach out. I&apos;m always open to discussing new projects, creative ideas or opportunities to be part of your visions.
+              We are always looking for ways to improve our products and services. Contact us and let us know how we can help you.
             </motion.p>
           </div>
 
-          <div className="space-y-8">
-            {[
-              { title: 'Address', detail: 'Rawalpindi, Pakistan' },
-              { title: 'Phone', detail: '0340-7418174' },
-              { title: 'Email', detail: 'fahadfaheem178@gmail.com' }
-            ].map((info, i) => (
-              <motion.div 
-                key={info.title}
-                initial={{ opacity: 0, x: -25 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ x: 6 }}
-                className="space-y-1 transition-all duration-300 max-w-fit cursor-default"
-              >
-                <h4 className="text-sm font-bold uppercase tracking-wider text-cyan-400">{info.title}</h4>
-                <p className="text-gray-300 text-base font-semibold">{info.detail}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Socials - Horizontal */}
-          <div className="flex gap-6 pt-4">
-            {[
-              { icon: FaLinkedin, href: "https://www.linkedin.com/in/muhammad-fahad-525692306/" },
-              { icon: FaGithub, href: "https://github.com/MuhammadFahad0340" },
-              { icon: FaFacebook, href: "https://www.facebook.com/muhammad.fahad.300957" },
-              { icon: FaInstagram, href: "https://www.instagram.com/muhammadfahad188/" },
-            ].map((Social, i) => (
-              <motion.a
-                key={i}
-                href={Social.href}
-                target="_blank"
-                rel="noreferrer"
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.5 + i * 0.08 }}
-                whileHover={{ y: -5, scale: 1.15, color: '#22d3ee' }}
-                className="text-gray-400 hover:text-white transition-colors duration-200"
-              >
-                <Social.icon size={24} />
-              </motion.a>
-            ))}
-          </div>
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-400"
+          >
+            <a href="mailto:fahadfaheem178@gmail.com" className="hover:text-white transition-colors">fahadfaheem178@gmail.com</a>
+            <span className="text-gray-600">•</span>
+            <span className="hover:text-white transition-colors cursor-default">0340-7418174</span>
+            <span className="text-gray-600">•</span>
+            <span className="hover:text-white transition-colors cursor-default">Rawalpindi, Pakistan</span>
+          </motion.div>
 
           {/* World Map */}
           <WorldMap />
@@ -153,7 +123,7 @@ const Contact = () => {
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="flex-1 w-full max-w-xl"
         >
-          <div className="bg-[#111625]/60 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden transition-all duration-500 hover:border-white/15">
+          <div className="bg-[#111625]/80 backdrop-blur-xl rounded-[2rem] p-8 md:p-10 relative overflow-hidden transition-all duration-500">
             
             {/* Success Overlay */}
             <AnimatePresence>
@@ -174,97 +144,65 @@ const Contact = () => {
                 </motion.div>
               )}
             </AnimatePresence>
-
-            <h3 className="text-2xl font-extrabold uppercase tracking-widest mb-10 text-center text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">Get In Touch</h3>
             
             <form className="space-y-6" onSubmit={handleSubmit}>
-              <div className="space-y-2 relative">
-                <label className={`text-[10px] font-bold uppercase tracking-widest transition-colors duration-300 ${focusedField === 'name' ? 'text-cyan-400' : 'text-gray-400'}`}>Name</label>
+              <div className="space-y-2">
+                <label className="text-[13px] font-semibold text-gray-300">Full name</label>
                 <input 
                   type="text" 
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  onFocus={() => setFocusedField('name')}
-                  onBlur={() => setFocusedField(null)}
+                  placeholder="John Doe"
                   required
                   disabled={status === 'loading'}
-                  className="w-full bg-transparent border-b border-white/10 py-2 focus:outline-none transition-colors text-white disabled:opacity-50 font-medium text-sm"
-                />
-                <motion.div 
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: focusedField === 'name' ? 1 : 0 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-cyan-400 origin-center"
+                  className="w-full bg-[#1a1f35] rounded-xl px-4 py-3 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-colors text-white placeholder-gray-500 disabled:opacity-50 text-sm"
                 />
               </div>
 
-              <div className="space-y-2 relative">
-                <label className={`text-[10px] font-bold uppercase tracking-widest transition-colors duration-300 ${focusedField === 'email' ? 'text-cyan-400' : 'text-gray-400'}`}>Email</label>
+              <div className="space-y-2">
+                <label className="text-[13px] font-semibold text-gray-300">Email Address</label>
                 <input 
                   type="email" 
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  onFocus={() => setFocusedField('email')}
-                  onBlur={() => setFocusedField(null)}
+                  placeholder="contact@example.com"
                   required
-                  title="Email format is not right"
                   disabled={status === 'loading'}
-                  className="w-full bg-transparent border-b border-white/10 py-2 focus:outline-none transition-colors text-white invalid:[&:not(:placeholder-shown)]:border-red-500/50 disabled:opacity-50 font-medium text-sm"
-                />
-                <motion.div 
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: focusedField === 'email' ? 1 : 0 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-cyan-400 origin-center"
+                  className="w-full bg-[#1a1f35] rounded-xl px-4 py-3 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-colors text-white placeholder-gray-500 disabled:opacity-50 text-sm"
                 />
               </div>
 
-              <div className="space-y-2 relative">
-                <label className={`text-[10px] font-bold uppercase tracking-widest transition-colors duration-300 ${focusedField === 'phone' ? 'text-cyan-400' : 'text-gray-400'}`}>Phone number</label>
+              <div className="space-y-2">
+                <label className="text-[13px] font-semibold text-gray-300">Phone Number</label>
                 <input 
                   type="text" 
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  onFocus={() => setFocusedField('phone')}
-                  onBlur={() => setFocusedField(null)}
+                  placeholder="+1 (800) 123 4567"
                   required
                   inputMode="numeric"
-                  pattern="[0-9]*"
                   disabled={status === 'loading'}
                   onInput={(e) => {
-                    e.currentTarget.value = e.currentTarget.value.replace(/[^0-9]/g, '');
+                    e.currentTarget.value = e.currentTarget.value.replace(/[^0-9+\s()-]/g, '');
                   }}
-                  className="w-full bg-transparent border-b border-white/10 py-2 focus:outline-none transition-colors text-white disabled:opacity-50 font-medium text-sm"
-                />
-                <motion.div 
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: focusedField === 'phone' ? 1 : 0 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-cyan-400 origin-center"
+                  className="w-full bg-[#1a1f35] rounded-xl px-4 py-3 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-colors text-white placeholder-gray-500 disabled:opacity-50 text-sm"
                 />
               </div>
 
-              <div className="space-y-2 relative">
-                <label className={`text-[10px] font-bold uppercase tracking-widest transition-colors duration-300 ${focusedField === 'message' ? 'text-cyan-400' : 'text-gray-400'}`}>Message</label>
+              <div className="space-y-2">
+                <label className="text-[13px] font-semibold text-gray-300">Message</label>
                 <textarea 
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  onFocus={() => setFocusedField('message')}
-                  onBlur={() => setFocusedField(null)}
+                  placeholder="Type your message here"
                   required
-                  rows={3}
+                  rows={4}
                   disabled={status === 'loading'}
-                  className="w-full bg-transparent border-b border-white/10 py-2 focus:outline-none transition-colors text-white resize-none disabled:opacity-50 font-medium text-sm"
-                />
-                <motion.div 
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: focusedField === 'message' ? 1 : 0 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-cyan-400 origin-center"
+                  className="w-full bg-[#1a1f35] rounded-xl px-4 py-3 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-colors text-white placeholder-gray-500 resize-none disabled:opacity-50 text-sm"
                 />
               </div>
 
@@ -274,20 +212,20 @@ const Contact = () => {
                 </div>
               )}
 
-              <div className="pt-6">
+              <div className="pt-2">
                 <motion.button 
                   type="submit"
                   disabled={status === 'loading'}
-                  whileHover={status === 'loading' ? {} : { scale: 1.02, backgroundColor: 'rgba(255, 255, 255, 1)', color: '#0b031b', borderColor: 'rgba(255, 255, 255, 1)', boxShadow: '0 8px 30px rgba(6, 182, 212, 0.25)' }}
+                  whileHover={status === 'loading' ? {} : { scale: 1.02 }}
                   whileTap={status === 'loading' ? {} : { scale: 0.98 }}
-                  className="w-full py-4 bg-transparent border border-white/10 rounded-xl font-bold uppercase tracking-widest text-sm text-white transition-all duration-300 shadow-xl disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-white flex items-center justify-center gap-3 cursor-pointer"
+                  className="px-6 py-2.5 bg-[#2a3050] hover:bg-[#343b61] rounded-lg font-medium text-sm text-white transition-colors disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
                 >
                   {status === 'loading' ? (
                     <>
                       <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                       Sending...
                     </>
-                  ) : 'Send Message'}
+                  ) : 'Submit'}
                 </motion.button>
               </div>
             </form>

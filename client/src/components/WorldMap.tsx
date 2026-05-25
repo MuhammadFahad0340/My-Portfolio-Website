@@ -16,8 +16,7 @@ export default function WorldMap() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="relative w-full mt-12 rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl"
-      style={{ background: 'rgba(11, 3, 27, 0.6)', height: '320px' }}
+      className="relative w-full h-[320px] cursor-grab active:cursor-grabbing"
     >
       {/* Cyan center glow behind Pakistan */}
       <div
@@ -35,10 +34,10 @@ export default function WorldMap() {
 
       <ComposableMap
         projection="geoNaturalEarth1"
-        projectionConfig={{ scale: 600, center: [73.0479, 28] }}
+        projectionConfig={{ scale: 250, center: [73.0479, 20] }}
         style={{ width: '100%', height: '100%' }}
       >
-        <ZoomableGroup zoom={1} minZoom={1} maxZoom={1}>
+        <ZoomableGroup zoom={1} minZoom={1} maxZoom={8}>
           <Geographies geography={GEO_URL}>
             {({ geographies }) =>
               geographies.map((geo) => (
@@ -123,13 +122,6 @@ export default function WorldMap() {
           </Marker>
         </ZoomableGroup>
       </ComposableMap>
-
-      {/* Bottom label */}
-      <div className="absolute bottom-3 left-0 right-0 flex justify-center pointer-events-none">
-        <span className="text-[9px] font-bold tracking-[0.3em] uppercase text-cyan-500/60">
-          Rawalpindi, Pakistan
-        </span>
-      </div>
     </motion.div>
   );
 }
