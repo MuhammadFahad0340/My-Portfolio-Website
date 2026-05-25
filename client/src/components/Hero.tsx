@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FiCheck, FiArrowDownRight, FiArrowDown } from 'react-icons/fi';
+import { FiCheck, FiArrowDown } from 'react-icons/fi';
 
 const Hero = () => {
   return (
@@ -25,27 +25,7 @@ const Hero = () => {
       <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-purple-900/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] bg-cyan-900/10 rounded-full blur-[120px] pointer-events-none" />
 
-      {/* Template navigation helper - top right aligned inside hero container visually */}
-      <div className="absolute top-8 right-10 z-20 hidden xl:flex gap-12 text-xs font-semibold tracking-wider">
-        <Link href="#portfolio" className="group flex flex-col items-start gap-1">
-          <span className="flex items-center gap-1 text-gray-300 group-hover:text-cyan-400 transition-colors">
-            MY PROJECTS <FiArrowDownRight className="text-cyan-500" />
-          </span>
-          <span className="text-[10px] text-gray-500 font-medium">See all my work</span>
-        </Link>
-        <Link href="#services" className="group flex flex-col items-start gap-1">
-          <span className="flex items-center gap-1 text-gray-300 group-hover:text-cyan-400 transition-colors">
-            ABOUT ME <FiArrowDownRight className="text-cyan-500" />
-          </span>
-          <span className="text-[10px] text-gray-500 font-medium">Learn what I offer</span>
-        </Link>
-        <Link href="#contact" className="group flex flex-col items-start gap-1">
-          <span className="flex items-center gap-1 text-gray-300 group-hover:text-cyan-400 transition-colors">
-            CONTACT ME <FiArrowDownRight className="text-cyan-500" />
-          </span>
-          <span className="text-[10px] text-gray-500 font-medium">fahadfaheem178@gmail.com</span>
-        </Link>
-      </div>
+
 
       {/* Main Content Row */}
       <div className="relative z-10 flex-1 flex flex-col lg:flex-row items-center justify-between w-full px-6 md:px-16 xl:px-32 pt-32 pb-16 gap-12">
