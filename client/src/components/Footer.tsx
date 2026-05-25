@@ -11,14 +11,9 @@ const Footer = () => {
         
         {/* Left: Branding */}
         <div className="flex flex-col items-center md:items-start gap-2">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-full bg-[#0f1424] border border-cyan-500/50 flex items-center justify-center shadow-[0_0_10px_rgba(6,182,212,0.4)] shrink-0">
-              <span className="text-cyan-400 font-mono font-bold text-[10px] tracking-tighter ml-[1px]">
-                &lt;/&gt;
-              </span>
-            </div>
-            <span className="text-sm font-bold tracking-widest text-white">MUHAMMAD FAHAD</span>
-          </div>
+          <Link href="/" className="flex items-center gap-2">
+            <img src="/logo.png" alt="Fahad Logo" className="h-8 object-contain mix-blend-screen opacity-75 hover:opacity-100 transition-opacity" />
+          </Link>
           <p className="text-[10px] uppercase tracking-[0.2em]">© {new Date().getFullYear()} All Rights Reserved</p>
         </div>
 

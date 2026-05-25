@@ -10,6 +10,19 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* Alias cyan to fuchsia to globally match the new pink/purple logo theme */
+  --color-cyan-50: var(--color-fuchsia-50);
+  --color-cyan-100: var(--color-fuchsia-100);
+  --color-cyan-200: var(--color-fuchsia-200);
+  --color-cyan-300: var(--color-fuchsia-300);
+  --color-cyan-400: var(--color-fuchsia-400);
+  --color-cyan-500: var(--color-fuchsia-500);
+  --color-cyan-600: var(--color-fuchsia-600);
+  --color-cyan-700: var(--color-fuchsia-700);
+  --color-cyan-800: var(--color-fuchsia-800);
+  --color-cyan-900: var(--color-fuchsia-900);
+  --color-cyan-950: var(--color-fuchsia-950);
 }
 
 @media (prefers-color-scheme: dark) {
