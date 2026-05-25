@@ -1,9 +1,12 @@
 "use client";
 
 import React from 'react';
+import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaLinkedin, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa6';
 import RippleGrid from './RippleGrid';
+
+const WorldMap = dynamic(() => import('./WorldMap'), { ssr: false });
 
 const Contact = () => {
   const [formData, setFormData] = React.useState({ name: '', email: '', phone: '', message: '' });
@@ -137,6 +140,9 @@ const Contact = () => {
               </motion.a>
             ))}
           </div>
+
+          {/* World Map */}
+          <WorldMap />
         </div>
 
         {/* ── RIGHT SIDE: Form Card ── */}
