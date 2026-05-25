@@ -29,10 +29,10 @@ const Hero = () => {
 
       {/* Main Content Row */}
       <div className="relative z-10 flex-1 flex flex-col lg:flex-row items-center justify-between w-full px-6 md:px-16 xl:px-32 pt-32 pb-16 gap-12">
-        
+
         {/* ── LEFT COLUMN: Text, Checklist & CTAs ── */}
         <div className="w-full lg:w-1/2 flex flex-col justify-center gap-8 text-left">
-          
+
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -43,7 +43,7 @@ const Hero = () => {
               <span className="text-2xl animate-bounce">👋</span>
               <span className="text-sm font-extrabold uppercase tracking-[0.25em] text-cyan-400">Hello! I&apos;m</span>
             </div>
-            
+
             <h1 className="text-5xl md:text-6xl xl:text-7xl font-black uppercase leading-none tracking-tight">
               Muhammad
               <br />
@@ -53,12 +53,12 @@ const Hero = () => {
             </h1>
 
             <p className="text-sm md:text-base text-gray-400 leading-relaxed max-w-xl pt-2 font-medium">
-              I am a CS Final Year student at <span className="text-white font-semibold">NUST</span> and an impact-driven developer. I specialize in backend architecture design, clean interactive frontends, and cross-platform mobile products.
+              I am a CS Graduate from <span className="text-white font-semibold">NUST</span> and an impact-driven developer. I specialize in backend architecture design, clean interactive frontends, and cross-platform mobile products.
             </p>
           </motion.div>
 
           {/* Bullet points checklist */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
@@ -79,7 +79,7 @@ const Hero = () => {
           </motion.div>
 
           {/* CTA Row */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
@@ -89,9 +89,9 @@ const Hero = () => {
               Let&apos;s Talk
             </Link>
 
-            <a 
-              href="/resume.pdf" 
-              target="_blank" 
+            <a
+              href="/resume.pdf"
+              target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-white border-b-2 border-white/30 hover:border-cyan-400 hover:text-cyan-400 pb-1.5 transition-colors duration-300"
             >
@@ -102,7 +102,7 @@ const Hero = () => {
         </div>
 
         {/* ── RIGHT COLUMN: Portrait Frame & Decorators ── */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
@@ -110,7 +110,7 @@ const Hero = () => {
         >
           {/* Main frame container */}
           <div className="relative group w-64 md:w-80 xl:w-[350px] aspect-[3/4]">
-            
+
             {/* Background glowing gradients */}
             <div className="absolute -inset-4 bg-gradient-to-br from-cyan-500/20 to-purple-600/10 rounded-[2.5rem] blur-3xl opacity-60 group-hover:opacity-80 transition-opacity duration-700 pointer-events-none" />
 
