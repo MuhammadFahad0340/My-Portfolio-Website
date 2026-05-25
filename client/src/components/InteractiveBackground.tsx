@@ -52,14 +52,70 @@ function BackgroundScene({ mouse }: { mouse: React.MutableRefObject<{ x: number;
   
   // Cache the circle texture
   const texture = useMemo(() => createCircleTexture(), []);
+  // Create mutable local copies of the static particle data so we can modify them dynamically
+  const positions = useMemo(() => new Float32Array(staticPositions), []);
+  const colors = useMemo(() => new Float32Array(staticColors), []);
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
 
-    // Gently rotate the dust cloud
+    // Gently rotate the dust cloud and apply cursor repulsion
     if (pointsRef.current) {
       pointsRef.current.rotation.y = time * 0.01;
       pointsRef.current.rotation.x = Math.sin(time * 0.05) * 0.05;
+
+      const positionsAttr = pointsRef.current.geometry.attributes.position;
+      const posArray = positionsAttr.array as Float32Array;
+      
+      const viewport = state.viewport;
+      // Project mouse screen coordinates to world space coordinates
+      const mx = (mouse.current.x * viewport.width) / 2;
+      const my = (mouse.current.y * viewport.height) / 2;
+      
+      const repulsionRadius = 5.0; // Distance within which particles start to disperse
+      const repulsionStrength = 4.0; // Push force speed
+      const returnSpeed = 0.045; // Elastic return speed to home position
+
+      for (let i = 0; i < COUNT; i++) {
+        const idx = i * 3;
+        
+        let x = posArray[idx];
+        let y = posArray[idx + 1];
+        let z = posArray[idx + 2];
+        
+        const ox = staticPositions[idx];
+        const oy = staticPositions[idx + 1];
+        const oz = staticPositions[idx + 2];
+
+        // 3D displacement vector from cursor to particle
+        const dx = x - mx;
+        const dy = y - my;
+        const dz = z - 0; // Cursor is projected onto Z = 0 plane
+        
+        const distSq = dx * dx + dy * dy + dz * dz;
+        const dist = Math.sqrt(distSq);
+
+        if (dist < repulsionRadius && dist > 0.01) {
+          // Calculate push force (stronger the closer the mouse is)
+          const force = (repulsionRadius - dist) / repulsionRadius;
+          const pushRatio = force * repulsionStrength;
+          
+          x += (dx / dist) * pushRatio;
+          y += (dy / dist) * pushRatio;
+          z += (dz / dist) * pushRatio;
+        }
+
+        // Return to baseline home coordinates elastically
+        x = THREE.MathUtils.lerp(x, ox, returnSpeed);
+        y = THREE.MathUtils.lerp(y, oy, returnSpeed);
+        z = THREE.MathUtils.lerp(z, oz, returnSpeed);
+
+        posArray[idx] = x;
+        posArray[idx + 1] = y;
+        posArray[idx + 2] = z;
+      }
+      
+      positionsAttr.needsUpdate = true;
     }
 
     // Spin and float the wireframe shapes
@@ -94,11 +150,11 @@ function BackgroundScene({ mouse }: { mouse: React.MutableRefObject<{ x: number;
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
-            args={[staticPositions, 3]}
+            args={[positions, 3]}
           />
           <bufferAttribute
             attach="attributes-color"
-            args={[staticColors, 3]}
+            args={[colors, 3]}
           />
         </bufferGeometry>
         <pointsMaterial
