@@ -52,14 +52,9 @@ const Services = () => {
               WHAT I&apos;M<br />OFFERING
             </h2>
           </div>
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-8 max-w-xl">
-            <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-              I provide high-performance development services tailored to modern business requirements. From intuitive UI designs to scalable database architectures and AI model integrations.
-            </p>
-            <Link href="#portfolio" className="shrink-0 px-6 py-3.5 bg-white text-[#0b031b] font-bold text-xs tracking-widest uppercase rounded-full hover:bg-cyan-400 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all duration-300">
-              All Services
-            </Link>
-          </div>
+          <p className="text-gray-400 text-sm md:text-base leading-relaxed max-w-xl">
+            High-performance development services tailored to modern business needs — from scalable backend systems and interactive frontends to mobile apps, AI integrations, and database architecture.
+          </p>
         </div>
 
         {/* Content Layout: Scroll Down + Cards */}
