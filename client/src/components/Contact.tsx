@@ -4,6 +4,7 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiMail } from 'react-icons/fi';
+import { FaLinkedin, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa6';
 import RippleGrid from './RippleGrid';
 
 const WorldMap = dynamic(() => import('./WorldMap'), { ssr: false });
@@ -73,6 +74,32 @@ const Contact = () => {
         
         {/* ── LEFT SIDE: Info ── */}
         <div className="flex-1 space-y-10">
+          
+          {/* Socials - Horizontal */}
+          <div className="flex gap-5 mb-4">
+            {[
+              { icon: FaLinkedin, href: "https://www.linkedin.com/in/muhammad-fahad-525692306/" },
+              { icon: FaGithub, href: "https://github.com/MuhammadFahad0340" },
+              { icon: FaFacebook, href: "https://www.facebook.com/muhammad.fahad.300957" },
+              { icon: FaInstagram, href: "https://www.instagram.com/muhammadfahad188/" },
+            ].map((Social, i) => (
+              <motion.a
+                key={i}
+                href={Social.href}
+                target="_blank"
+                rel="noreferrer"
+                initial={{ opacity: 0, y: -10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.1 + i * 0.08 }}
+                whileHover={{ y: -3, scale: 1.15, color: '#22d3ee' }}
+                className="text-gray-400 hover:text-white transition-colors duration-200"
+              >
+                <Social.icon size={22} />
+              </motion.a>
+            ))}
+          </div>
+
           <div>
             <div className="w-14 h-14 bg-[#111625] border border-white/5 shadow-2xl rounded-2xl flex items-center justify-center mb-8">
               <FiMail size={24} className="text-cyan-400" />
