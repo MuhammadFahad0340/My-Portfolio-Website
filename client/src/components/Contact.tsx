@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaLinkedin, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa6';
+import RippleGrid from './RippleGrid';
 
 const Contact = () => {
   const [formData, setFormData] = React.useState({ name: '', email: '', phone: '', message: '' });
@@ -47,9 +48,24 @@ const Contact = () => {
 
   return (
     <section id="contact" className="w-full py-24 px-6 md:px-12 bg-transparent text-white font-sans relative overflow-hidden">
+      {/* RippleGrid background */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <RippleGrid
+          enableRainbow={false}
+          gridColor="#06b6d4"
+          rippleIntensity={0.04}
+          gridSize={8}
+          gridThickness={20}
+          fadeDistance={1.8}
+          vignetteStrength={2.5}
+          glowIntensity={0.08}
+          opacity={0.25}
+          mouseInteraction={false}
+        />
+      </div>
       {/* Background glow */}
-      <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-cyan-900/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[120px] pointer-events-none z-0" />
+      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-cyan-900/10 rounded-full blur-[100px] pointer-events-none z-0" />
 
       <div className="max-w-6xl mx-auto relative z-10 flex flex-col lg:flex-row gap-16 lg:items-start">
         
