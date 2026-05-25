@@ -3,6 +3,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { experiences } from '@/data/experiences';
+import { motion } from 'framer-motion';
 
 interface ExperienceItem {
   role: string;
@@ -107,7 +108,13 @@ const ExperienceEntry = ({ exp, isEven }: { exp: ExperienceItem, isEven: boolean
       </div>
 
       {/* Preview Side */}
-      <div className={`w-full md:w-1/2 flex justify-center items-center px-4 md:px-12 ${isEven ? 'md:order-1' : 'md:order-2'}`}>
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, margin: '-100px' }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className={`w-full md:w-1/2 flex justify-center items-center px-4 md:px-12 ${isEven ? 'md:order-1' : 'md:order-2'}`}
+      >
         <div className="relative w-full group/preview">
           <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl opacity-0 group-hover/preview:opacity-10 transition-opacity duration-500 blur-2xl" />
           
@@ -166,11 +173,21 @@ const ExperienceEntry = ({ exp, isEven }: { exp: ExperienceItem, isEven: boolean
             </div>
           )}
         </div>
-      </div>
+      </motion.div>
 
       {/* Details Side */}
-      <div className={`w-full md:w-1/2 flex flex-col justify-center px-4 md:px-12 ${isEven ? 'md:order-2 text-left' : 'md:order-1 md:text-right'}`}>
-        <div className="bg-white/5 border border-white/10 rounded-3xl p-8 hover:border-cyan-500/40 hover:bg-white/8 transition-all duration-500 relative group/card overflow-hidden">
+      <motion.div 
+        initial={{ opacity: 0, x: isEven ? 40 : -40 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: '-100px' }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className={`w-full md:w-1/2 flex flex-col justify-center px-4 md:px-12 ${isEven ? 'md:order-2 text-left' : 'md:order-1 md:text-right'}`}
+      >
+        <motion.div 
+          whileHover={{ y: -6, borderColor: 'rgba(6, 182, 212, 0.3)', backgroundColor: 'rgba(255, 255, 255, 0.08)', boxShadow: '0 10px 40px rgba(6, 182, 212, 0.08)' }}
+          transition={{ duration: 0.3 }}
+          className="bg-white/5 border border-white/10 rounded-3xl p-8 transition-all duration-500 relative group/card overflow-hidden"
+        >
           <div className={`absolute -top-10 -right-10 md:-top-12 md:-right-12 opacity-5 transform rotate-12 group-hover/card:scale-110 transition-transform duration-700`}>
             {exp.logo && <Image src={exp.logo} alt="" width={200} height={200} />}
           </div>
@@ -203,13 +220,17 @@ const ExperienceEntry = ({ exp, isEven }: { exp: ExperienceItem, isEven: boolean
 
           <div className={`flex flex-wrap gap-2 ${isEven ? 'justify-start' : 'md:justify-end'}`}>
             {exp.techs.map((tech: string) => (
-              <span key={tech} className="px-3 py-1 text-[10px] font-bold rounded-lg border border-white/5 bg-white/5 text-gray-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-colors duration-300 uppercase tracking-tighter">
+              <motion.span 
+                key={tech} 
+                whileHover={{ scale: 1.08, color: '#06b6d4', borderColor: 'rgba(6, 182, 212, 0.4)' }}
+                className="px-3 py-1 text-[10px] font-bold rounded-lg border border-white/5 bg-white/5 text-gray-400 transition-colors duration-300 uppercase tracking-tighter cursor-default"
+              >
                 {tech}
-              </span>
+              </motion.span>
             ))}
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };

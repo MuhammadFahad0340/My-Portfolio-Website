@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import {
   SiReact, SiNextdotjs, SiTypescript, SiJavascript, SiHtml5, SiTailwindcss,
   SiNodedotjs, SiExpress, SiFirebase, SiMongodb, SiMysql, SiSupabase, SiPostgresql,
@@ -236,11 +236,11 @@ const DraggableIcon = ({ icon: Icon, accent }: { icon: IconType; accent: string 
           transformStyle: 'preserve-3d',
           width: 80, height: 80,
           borderRadius: 20,
-          background: `radial-gradient(circle at 30% 25%, ${accent}33, #0b031b88)`,
+          background: `radial-gradient(circle at 30% 25%, ${accent}33, rgba(17, 22, 37, 0.8))`,
           border: `1.5px solid ${accent}55`,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           boxShadow: `
-            0 -8px 16px 0 ${accent}44,
+            0 -8px 16px 0 ${accent}22,
             0 12px 28px 0 #00000099,
             0 0 30px 0 ${accent}22,
             inset 0 1px 0 ${accent}55
@@ -271,50 +271,56 @@ const SkillRow = ({ skill }: { skill: Skill }) => {
   return (
     <div className="relative flex items-center gap-3">
       {/* Skill badge */}
-      <div
-        className="flex-1 flex items-center justify-between px-4 py-2.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/8 transition-all duration-300 cursor-default"
+      <motion.div
+        className="flex-1 flex items-center justify-between px-4 py-2.5 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 transition-colors duration-300 cursor-default"
+        whileHover={{
+          scale: 1.02,
+          borderColor: `${meta.accent}44`,
+          boxShadow: `0 4px 15px ${meta.accent}15`,
+        }}
+        transition={{ type: 'spring', stiffness: 400, damping: 15 }}
         onMouseEnter={showTooltip}
         onMouseLeave={scheduleHide}
       >
-        <span className="text-sm font-bold text-white">{skill.name}</span>
+        <span className="text-sm font-bold text-gray-200">{skill.name}</span>
         <div className="flex gap-1">
           {[1,2,3,4,5].map(d => (
             <div key={d} className="w-1.5 h-1.5 rounded-full transition-all" style={{ background: d <= skill.level ? meta.accent : 'rgba(255,255,255,0.1)' }} />
           ))}
         </div>
-      </div>
+      </motion.div>
 
       {/* Tooltip — right side on desktop, below on mobile */}
       <AnimatePresence>
         {hovered && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.18 }}
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            transition={{ type: 'spring', stiffness: 350, damping: 20 }}
             className="
               absolute z-50
               top-full left-0 mt-2 w-[90vw] max-w-sm
               lg:top-1/2 lg:-translate-y-1/2 lg:left-full lg:mt-0 lg:ml-3 lg:w-auto lg:max-w-none
             "
-            style={{ boxShadow: `0 0 40px ${meta.accent}22` }}
+            style={{ filter: `drop-shadow(0 10px 30px ${meta.accent}15)` }}
             onMouseEnter={showTooltip}
             onMouseLeave={scheduleHide}
           >
             {/* Arrow — only visible on desktop (lg) */}
             <div
               className="hidden lg:block absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent border-r-[8px]"
-              style={{ borderRightColor: 'rgba(255,255,255,0.08)' }}
+              style={{ borderRightColor: 'rgba(17, 22, 37, 0.98)' }}
             />
 
             <div
-              className="flex flex-col gap-4 bg-[#0f1424]/97 backdrop-blur-md border border-white/10 rounded-2xl p-4 shadow-2xl"
+              className="flex flex-col gap-4 bg-[#111625]/98 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-2xl"
               style={{ width: 260 }}
             >
               {/* TOP: 3D draggable icon — centered, desktop only */}
               <div className="hidden lg:flex flex-col items-center justify-center gap-1.5">
                 <DraggableIcon icon={meta.icon} accent={meta.accent} />
-                <p className="text-[9px] text-gray-500 uppercase tracking-widest">Drag to rotate</p>
+                <p className="text-[9px] text-gray-500 uppercase tracking-widest mt-1">Drag to rotate</p>
               </div>
 
               {/* BOTTOM: Usage descriptions */}
@@ -338,24 +344,63 @@ const SkillRow = ({ skill }: { skill: Skill }) => {
 };
 
 // ─── Simple badge (for "All" view — with icon on the left) ───────────────────
-const SkillBadge = ({ skill, color }: { skill: Skill; color: string }) => {
+const SkillBadge = ({ skill }: { skill: Skill }) => {
   const meta = skillMeta[skill.name] ?? { icon: SiNodedotjs, accent: '#06B6D4' };
   const Icon = meta.icon;
 
   return (
-    <span className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl border text-sm font-bold cursor-default hover:scale-105 transition-transform duration-200 ${color}`}>
-      <Icon size={16} color={meta.accent} style={{ flexShrink: 0 }} />
+    <motion.div
+      whileHover={{
+        scale: 1.03,
+        borderColor: `${meta.accent}aa`,
+        backgroundColor: `${meta.accent}12`,
+        boxShadow: `0 4px 20px ${meta.accent}15`,
+      }}
+      transition={{ type: 'spring', stiffness: 450, damping: 15 }}
+      className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-white/10 bg-white/5 text-sm font-semibold text-gray-200 cursor-default"
+    >
+      <Icon size={16} color={meta.accent} style={{ flexShrink: 0, filter: `drop-shadow(0 0 4px ${meta.accent}55)` }} />
       <span className="flex-1">{skill.name}</span>
       <span className="flex gap-1">
         {[1,2,3,4,5].map(d => (
-          <span key={d} className={`w-1.5 h-1.5 rounded-full ${d <= skill.level ? 'bg-current' : 'bg-white/10'}`} />
+          <span
+            key={d}
+            className="w-1.5 h-1.5 rounded-full transition-colors duration-300"
+            style={{
+              backgroundColor: d <= skill.level ? meta.accent : 'rgba(255,255,255,0.1)',
+              boxShadow: d <= skill.level ? `0 0 6px ${meta.accent}` : 'none',
+            }}
+          />
         ))}
       </span>
-    </span>
+    </motion.div>
   );
 };
 
 // ─── Main Section ──────────────────────────────────────────────────────────────
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 100,
+      damping: 15,
+    },
+  },
+};
+
 const Skills = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const displayed = activeCategory
@@ -379,35 +424,58 @@ const Skills = () => {
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex flex-wrap justify-center gap-3 mb-14">
+        <div className="flex flex-wrap justify-center gap-2 mb-14 bg-[#111625]/40 p-2 rounded-full border border-white/5 max-w-fit mx-auto backdrop-blur-md">
           <button
             onClick={() => setActiveCategory(null)}
-            className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest border transition-all duration-300 ${
-              activeCategory === null ? 'bg-cyan-500 border-cyan-500 text-[#0b031b]' : 'border-white/10 text-gray-400 hover:border-white/30 hover:text-white'
+            className={`relative px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 ${
+              activeCategory === null ? 'text-[#0b031b] z-10' : 'text-gray-400 hover:text-white'
             }`}
-          >All</button>
+          >
+            {activeCategory === null && (
+              <motion.span
+                layoutId="activeSkillTab"
+                transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                className="absolute inset-0 bg-cyan-400 rounded-full -z-10"
+              />
+            )}
+            All
+          </button>
           {skillCategories.map(cat => (
             <button
               key={cat.label}
               onClick={() => setActiveCategory(activeCategory === cat.label ? null : cat.label)}
-              className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest border transition-all duration-300 ${
-                activeCategory === cat.label ? 'bg-cyan-500 border-cyan-500 text-[#0b031b]' : 'border-white/10 text-gray-400 hover:border-white/30 hover:text-white'
+              className={`relative px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 ${
+                activeCategory === cat.label ? 'text-[#0b031b] z-10' : 'text-gray-400 hover:text-white'
               }`}
             >
+              {activeCategory === cat.label && (
+                <motion.span
+                  layoutId="activeSkillTab"
+                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                  className="absolute inset-0 bg-cyan-400 rounded-full -z-10"
+                />
+              )}
               {cat.icon} {cat.label}
             </button>
           ))}
         </div>
 
         {/* Grid */}
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+        <motion.div
+          layout
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-50px' }}
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
+        >
           {displayed.map(cat => (
             <motion.div
-              key={cat.label} layout
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className={`border rounded-3xl p-6 transition-all duration-300 overflow-visible ${cat.color}`}
+              key={cat.label}
+              layout
+              variants={cardVariants}
+              whileHover={{ y: -5, borderColor: 'rgba(255, 255, 255, 0.25)', boxShadow: '0 15px 35px rgba(0, 0, 0, 0.35)' }}
+              className={`border rounded-3xl p-6 bg-[#111625]/45 backdrop-blur-xl shadow-2xl relative overflow-visible transition-all duration-300 ${cat.color.split(' ')[0]}`}
             >
               <div className="flex items-center gap-3 mb-5">
                 <span className="text-2xl">{cat.icon}</span>
@@ -418,7 +486,7 @@ const Skills = () => {
               <div className={`flex flex-col gap-3 overflow-visible`}>
                 {activeCategory === null
                   ? cat.skills.map(skill => (
-                      <SkillBadge key={skill.name} skill={skill} color={cat.color} />
+                      <SkillBadge key={skill.name} skill={skill} />
                     ))
                   : cat.skills.map(skill => (
                       <SkillRow key={skill.name} skill={skill} />
@@ -441,3 +509,4 @@ const Skills = () => {
 };
 
 export default Skills;
+

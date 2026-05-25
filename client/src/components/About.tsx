@@ -1,5 +1,8 @@
+"use client";
+
 import React from 'react';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 const About = () => {
   return (
@@ -7,8 +10,14 @@ const About = () => {
       <div className="max-w-5xl w-full flex flex-col md:flex-row gap-12 items-start justify-between">
         
         {/* Left Side: Detailed Bio */}
-        <div className="flex-1">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="flex-1"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 tracking-tight">
             About Me
           </h2>
           
@@ -16,7 +25,7 @@ const About = () => {
             CS Student at NUST | Full-Stack Developer | Flutter Specialist
           </h3>
 
-          <div className="space-y-6 text-gray-400 leading-relaxed">
+          <div className="space-y-6 text-gray-400 leading-relaxed font-medium">
             <p>
               I am currently pursuing my degree in Computer Science at the National University of Sciences and Technology (NUST). My journey into technology started with a deep curiosity about how systems are built, which quickly evolved into a passion for software engineering.
             </p>
@@ -32,16 +41,27 @@ const About = () => {
             <h4 className="text-lg text-white font-bold mb-4 uppercase tracking-wider">Core Competencies</h4>
             <div className="flex flex-wrap gap-3">
               {['React', 'Next.js', 'Node.js', 'Express', 'MongoDB', 'Flutter', 'Tailwind CSS', 'Python', 'C++'].map((skill) => (
-                <span key={skill} className="px-4 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-sm font-semibold shadow-sm">
+                <motion.span 
+                  key={skill} 
+                  whileHover={{ scale: 1.08, borderColor: 'rgba(6, 182, 212, 0.6)', backgroundColor: 'rgba(6, 182, 212, 0.15)', boxShadow: '0 4px 20px rgba(6, 182, 212, 0.15)' }}
+                  transition={{ type: 'spring', stiffness: 350, damping: 12 }}
+                  className="px-4 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-sm font-semibold shadow-sm cursor-default"
+                >
                   {skill}
-                </span>
+                </motion.span>
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Right Side: Photo or Graphic */}
-        <div className="w-full md:w-1/3 flex justify-center lg:sticky lg:top-32">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full md:w-1/3 flex justify-center lg:sticky lg:top-32"
+        >
           <div className="relative w-72 h-96 rounded-2xl overflow-hidden border-2 border-white/10 shadow-[0_0_30px_rgba(6,182,212,0.15)] group">
              {/* Using the generated hero image as a placeholder for Fahad's portrait */}
              <Image 
@@ -52,7 +72,7 @@ const About = () => {
              />
              <div className="absolute inset-0 bg-gradient-to-t from-[#0b031b] via-transparent to-transparent pointer-events-none opacity-80"></div>
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </section>
