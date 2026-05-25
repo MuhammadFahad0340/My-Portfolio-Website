@@ -15,7 +15,7 @@ export const projectsData: Project[] = [
     id: 'law-firm-platform',
     title: 'M&H Advocates & Corporate Consultants Platform',
     category: 'Full Stack',
-    image: '/projects/project_law_firm.png',
+    image: '/projects/project_law_firm.jpeg',
     overview: 'Developed during an internship at Al-Raheem Technologies, this production-ready law firm platform was built from scratch to manage legal services, client intake, appointment scheduling, and secure form handling. The platform focused on creating a professional, scalable, and secure digital experience for legal clients and administrators.',
     features: [
       'Case management system',
