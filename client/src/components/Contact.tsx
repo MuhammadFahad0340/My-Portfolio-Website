@@ -71,39 +71,40 @@ const Contact = () => {
       <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-cyan-900/10 rounded-full blur-[100px] pointer-events-none z-0" />
 
       <div className="max-w-6xl mx-auto relative z-10 flex flex-col lg:flex-row gap-16 lg:items-start">
-        
         {/* ── LEFT SIDE: Info ── */}
         <div className="flex-1 space-y-10">
-          
-          {/* Socials - Horizontal */}
-          <div className="flex gap-5 mb-4">
-            {[
-              { icon: FaLinkedin, href: "https://www.linkedin.com/in/muhammad-fahad-525692306/" },
-              { icon: FaGithub, href: "https://github.com/MuhammadFahad0340" },
-              { icon: FaFacebook, href: "https://www.facebook.com/muhammad.fahad.300957" },
-              { icon: FaInstagram, href: "https://www.instagram.com/muhammadfahad188/" },
-            ].map((Social, i) => (
-              <motion.a
-                key={i}
-                href={Social.href}
-                target="_blank"
-                rel="noreferrer"
-                initial={{ opacity: 0, y: -10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.1 + i * 0.08 }}
-                whileHover={{ y: -3, scale: 1.15, color: '#22d3ee' }}
-                className="text-gray-400 hover:text-white transition-colors duration-200"
-              >
-                <Social.icon size={22} />
-              </motion.a>
-            ))}
-          </div>
-
           <div>
-            <div className="w-14 h-14 bg-[#111625] border border-white/5 shadow-2xl rounded-2xl flex items-center justify-center mb-8">
-              <FiMail size={24} className="text-cyan-400" />
+            {/* Icons Row: Mail + Socials */}
+            <div className="flex flex-wrap gap-4 mb-8">
+              {/* Mail Icon */}
+              <div className="w-14 h-14 bg-[#111625] border border-white/5 shadow-2xl rounded-2xl flex items-center justify-center">
+                <FiMail size={24} className="text-cyan-400" />
+              </div>
+
+              {/* Social Icons */}
+              {[
+                { icon: FaLinkedin, href: "https://www.linkedin.com/in/muhammad-fahad-525692306/" },
+                { icon: FaGithub, href: "https://github.com/MuhammadFahad0340" },
+                { icon: FaFacebook, href: "https://www.facebook.com/muhammad.fahad.300957" },
+                { icon: FaInstagram, href: "https://www.instagram.com/muhammadfahad188/" },
+              ].map((Social, i) => (
+                <motion.a
+                  key={i}
+                  href={Social.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.1 + i * 0.08 }}
+                  whileHover={{ y: -3, scale: 1.05, borderColor: 'rgba(6,182,212,0.5)' }}
+                  className="w-14 h-14 bg-[#111625] border border-white/5 shadow-2xl rounded-2xl flex items-center justify-center text-gray-400 hover:text-cyan-400 transition-all duration-300"
+                >
+                  <Social.icon size={22} />
+                </motion.a>
+              ))}
             </div>
+
             <motion.h2 
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
