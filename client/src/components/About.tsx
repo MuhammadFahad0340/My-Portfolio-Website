@@ -22,25 +22,25 @@ const About = () => {
           </h2>
           
           <h3 className="text-xl text-gray-300 font-semibold mb-6">
-            CS Student at NUST | Full-Stack Developer | Flutter Specialist
+            MERN Stack & Flutter Developer | CS Final Year — NUST
           </h3>
 
           <div className="space-y-6 text-gray-400 leading-relaxed font-medium">
             <p>
-              I am currently pursuing my degree in Computer Science at the National University of Sciences and Technology (NUST). My journey into technology started with a deep curiosity about how systems are built, which quickly evolved into a passion for software engineering.
+              I am an impact-driven Full Stack Developer with 1+ year of professional experience, including a completed internship at Al-Raheem Technologies building production-ready systems. Currently, I am a final-year CS student at the National University of Sciences and Technology (NUST), ready to contribute from day one.
             </p>
             <p>
-              I specialize in the MERN stack (MongoDB, Express, React, Node.js) and Flutter. Whether I&apos;m building a robust backend to handle complex data structures or crafting a seamless, beautifully animated UI for mobile, I believe in writing clean, scalable, and maintainable code.
+              My technical foundation includes strong expertise in the MERN stack, Flutter, and REST API integration. I have a proven ability to deliver highly responsive UIs, secure backends with role-based access control (RBAC), real-time databases, and scalable web architectures.
             </p>
             <p>
-              Beyond traditional software development, I have a strong interest in AI/ML and Bioinformatics. I&apos;m fascinated by the intersection of computational logic and genomic sequencing, and I am actively exploring how technology can be leveraged in molecular medicine.
+              Whether I am developing a smart AI-powered Flutter application with real-time syncing or architecting a complete full-stack web platform from scratch, I focus on delivering seamless user experiences and writing clean, maintainable code supported by modern CI/CD pipelines.
             </p>
           </div>
 
           <div className="mt-10">
             <h4 className="text-lg text-white font-bold mb-4 uppercase tracking-wider">Core Competencies</h4>
             <div className="flex flex-wrap gap-3">
-              {['React', 'Next.js', 'Node.js', 'Express', 'MongoDB', 'Flutter', 'Tailwind CSS', 'Python', 'C++'].map((skill) => (
+              {['React.js', 'Next.js', 'TypeScript', 'Node.js', 'Express.js', 'MongoDB', 'Flutter', 'Tailwind CSS', 'Firebase', 'Supabase', 'Python'].map((skill) => (
                 <motion.span 
                   key={skill} 
                   whileHover={{ scale: 1.08, borderColor: 'rgba(6, 182, 212, 0.6)', backgroundColor: 'rgba(6, 182, 212, 0.15)', boxShadow: '0 4px 20px rgba(6, 182, 212, 0.15)' }}
