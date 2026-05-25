@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FiLayout, FiServer, FiSmartphone, FiCpu, FiDatabase, FiArrowDown } from 'react-icons/fi';
+import BorderGlow from './BorderGlow';
 
 const services = [
   {
@@ -87,31 +88,39 @@ const Services = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                   whileHover={{ y: -8 }}
-                  className={`flex flex-col justify-between p-8 rounded-3xl border transition-all duration-500 ${
-                    svc.active 
-                      ? 'bg-[#111625]/90 border-cyan-500/40 shadow-[0_15px_35px_rgba(6,182,212,0.1)]' 
-                      : 'bg-[#111625]/30 border-white/5 hover:border-white/15'
-                  }`}
                 >
-                  <div>
-                    {/* Icon */}
-                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-10 ${
-                      svc.active ? 'bg-cyan-500/20 text-cyan-400' : 'bg-white/5 text-gray-400'
-                    }`}>
-                      <Icon size={24} />
+                  <BorderGlow
+                    backgroundColor="#0d0d1a"
+                    borderRadius={24}
+                    glowColor="185 100 70"
+                    glowIntensity={1.2}
+                    glowRadius={36}
+                    edgeSensitivity={28}
+                    coneSpread={22}
+                    colors={['#22d3ee', '#a855f7', '#3b82f6']}
+                    className="h-full"
+                  >
+                    <div className="flex flex-col justify-between p-8 h-full">
+                      <div>
+                        {/* Icon */}
+                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-10 ${
+                          svc.active ? 'bg-cyan-500/20 text-cyan-400' : 'bg-white/5 text-gray-400'
+                        }`}>
+                          <Icon size={24} />
+                        </div>
+
+                        {/* Title */}
+                        <h3 className="text-lg font-extrabold uppercase tracking-wider mb-4 text-white">
+                          {svc.title}
+                        </h3>
+
+                        {/* Description */}
+                        <p className="text-xs text-gray-400 leading-relaxed font-medium">
+                          {svc.description}
+                        </p>
+                      </div>
                     </div>
-
-                    {/* Title */}
-                    <h3 className="text-lg font-extrabold uppercase tracking-wider mb-4 text-white">
-                      {svc.title}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-xs text-gray-400 leading-relaxed font-medium">
-                      {svc.description}
-                    </p>
-                  </div>
-
+                  </BorderGlow>
                 </motion.div>
               );
             })}

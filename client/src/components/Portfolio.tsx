@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
+import BorderGlow from './BorderGlow';
 
 const projectsData = [
   {
@@ -112,37 +113,49 @@ const Portfolio = () => {
                 animate="visible"
                 exit="exit"
                 whileHover={{ y: -8 }}
-                className="flex flex-col group cursor-pointer bg-[#111625]/45 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 hover:border-cyan-500/30"
               >
-                {/* Image Container */}
-                <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-900 shadow-lg">
-                  <Image 
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
-                    <motion.span 
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="px-6 py-2.5 border border-cyan-400 text-cyan-400 font-bold text-xs tracking-widest uppercase hover:bg-cyan-400 hover:text-[#0b031b] hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all duration-300"
-                    >
-                      View Project
-                    </motion.span>
+                <BorderGlow
+                  backgroundColor="#0d0d1a"
+                  borderRadius={16}
+                  glowColor="185 100 70"
+                  glowIntensity={1.2}
+                  glowRadius={36}
+                  edgeSensitivity={25}
+                  coneSpread={22}
+                  colors={['#22d3ee', '#a855f7', '#3b82f6']}
+                >
+                  <div className="flex flex-col group cursor-pointer">
+                    {/* Image Container */}
+                    <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-900 shadow-lg">
+                      <Image 
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      {/* Hover overlay */}
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                        <motion.span 
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="px-6 py-2.5 border border-cyan-400 text-cyan-400 font-bold text-xs tracking-widest uppercase hover:bg-cyan-400 hover:text-[#0b031b] hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all duration-300"
+                        >
+                          View Project
+                        </motion.span>
+                      </div>
+                    </div>
+                    
+                    {/* Text Container */}
+                    <div className="p-6">
+                      <p className="text-[10px] font-black tracking-widest uppercase text-cyan-400 mb-2">
+                        {project.category}
+                      </p>
+                      <h3 className="text-lg font-bold text-gray-100 transition-colors group-hover:text-cyan-300">
+                        {project.title}
+                      </h3>
+                    </div>
                   </div>
-                </div>
-                
-                {/* Text Container */}
-                <div className="p-6">
-                  <p className="text-[10px] font-black tracking-widest uppercase text-cyan-400 mb-2">
-                    {project.category}
-                  </p>
-                  <h3 className="text-lg font-bold text-gray-100 transition-colors group-hover:text-cyan-300">
-                    {project.title}
-                  </h3>
-                </div>
+                </BorderGlow>
               </motion.div>
             ))}
           </AnimatePresence>

@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
+import BorderGlow from './BorderGlow';
 import {
   SiReact, SiNextdotjs, SiTypescript, SiJavascript, SiHtml5, SiTailwindcss,
   SiNodedotjs, SiExpress, SiFirebase, SiMongodb, SiMysql, SiSupabase, SiPostgresql,
@@ -474,25 +475,37 @@ const Skills = () => {
               key={cat.label}
               layout
               variants={cardVariants}
-              whileHover={{ y: -5, borderColor: 'rgba(255, 255, 255, 0.25)', boxShadow: '0 15px 35px rgba(0, 0, 0, 0.35)' }}
-              className={`border rounded-3xl p-6 bg-[#111625]/45 backdrop-blur-xl shadow-2xl relative overflow-visible transition-all duration-300 ${cat.color.split(' ')[0]}`}
+              whileHover={{ y: -5 }}
             >
-              <div className="flex items-center gap-3 mb-5">
-                <span className="text-2xl">{cat.icon}</span>
-                <h3 className="text-lg font-bold">{cat.label}</h3>
-              </div>
+              <BorderGlow
+                backgroundColor="#0d0d1a"
+                borderRadius={24}
+                glowColor="185 100 70"
+                glowIntensity={1.2}
+                glowRadius={36}
+                edgeSensitivity={28}
+                coneSpread={22}
+                colors={['#22d3ee', '#a855f7', '#3b82f6']}
+              >
+                <div className="p-6 overflow-visible">
+                  <div className="flex items-center gap-3 mb-5">
+                    <span className="text-2xl">{cat.icon}</span>
+                    <h3 className="text-lg font-bold">{cat.label}</h3>
+                  </div>
 
-              {/* ALL view: simple badges; FILTERED view: skill rows with tooltips */}
-              <div className={`flex flex-col gap-3 overflow-visible`}>
-                {activeCategory === null
-                  ? cat.skills.map(skill => (
-                      <SkillBadge key={skill.name} skill={skill} />
-                    ))
-                  : cat.skills.map(skill => (
-                      <SkillRow key={skill.name} skill={skill} />
-                    ))
-                }
-              </div>
+                  {/* ALL view: simple badges; FILTERED view: skill rows with tooltips */}
+                  <div className="flex flex-col gap-3 overflow-visible">
+                    {activeCategory === null
+                      ? cat.skills.map(skill => (
+                          <SkillBadge key={skill.name} skill={skill} />
+                        ))
+                      : cat.skills.map(skill => (
+                          <SkillRow key={skill.name} skill={skill} />
+                        ))
+                    }
+                  </div>
+                </div>
+              </BorderGlow>
             </motion.div>
           ))}
         </motion.div>
