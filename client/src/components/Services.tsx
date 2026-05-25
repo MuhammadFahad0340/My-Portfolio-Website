@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiLayout, FiServer, FiSmartphone, FiCpu, FiDatabase, FiArrowDown } from 'react-icons/fi';
-import Link from 'next/link';
+import { FiLayout, FiServer, FiSmartphone, FiCpu, FiDatabase } from 'react-icons/fi';
 
 const services = [
   {
@@ -118,12 +117,6 @@ const Services = () => {
                     </p>
                   </div>
 
-                  {/* CTA */}
-                  <div className="mt-12 pt-6 border-t border-white/5">
-                    <Link href="#contact" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-cyan-400 hover:text-white transition-colors">
-                      Let&apos;s Talk <span className="text-sm">→</span>
-                    </Link>
-                  </div>
                 </motion.div>
               );
             })}
