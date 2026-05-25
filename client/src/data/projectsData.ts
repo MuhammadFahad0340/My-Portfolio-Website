@@ -15,7 +15,7 @@ export const projectsData: Project[] = [
     id: 'law-firm-platform',
     title: 'M&H Advocates & Corporate Consultants Platform',
     category: 'Full Stack',
-    image: '/project_law_firm.png',
+    image: '/projects/project_law_firm.png',
     overview: 'Developed during an internship at Al-Raheem Technologies, this production-ready law firm platform was built from scratch to manage legal services, client intake, appointment scheduling, and secure form handling. The platform focused on creating a professional, scalable, and secure digital experience for legal clients and administrators.',
     features: [
       'Case management system',
@@ -36,7 +36,7 @@ export const projectsData: Project[] = [
     id: 'presence-plus',
     title: 'Presence+ — Enhanced Bluetooth Attendance',
     category: 'Mobile / AI',
-    image: '/project_presence.png',
+    image: '/projects/project_presence.png',
     overview: 'Presence+ is a smart attendance management system designed to automate classroom attendance using Bluetooth-based proximity detection and real-time synchronization. The application provides separate interfaces for teachers and students, making attendance management fast, secure, and efficient.',
     features: [
       'Bluetooth-based automatic attendance marking',
@@ -57,6 +57,7 @@ export const projectsData: Project[] = [
     id: 'blogging-platform',
     title: 'Blogging Platform',
     category: 'Full Stack',
+    image: '/projects/project_blog.png',
     overview: 'The Blogging Platform is a full-stack web application developed for content creation and management. The platform includes secure authentication, role-based access control, and a complete CRUD system for managing blogs and user interactions.',
     features: [
       'JWT-based authentication',
@@ -76,6 +77,7 @@ export const projectsData: Project[] = [
     id: 'digital-marketing',
     title: 'Digital Marketing Landing Page',
     category: 'Web App',
+    image: '/projects/project_marketing.png',
     overview: 'This project is a modern and highly interactive digital marketing landing page developed to deliver an engaging user experience with clean animations and reusable UI components. The landing page focuses on performance, responsiveness, and modern frontend design principles.',
     features: [
       'Modern responsive UI design',
@@ -94,6 +96,7 @@ export const projectsData: Project[] = [
     id: 'smart-image-enhancer',
     title: 'Smart Image Enhancer',
     category: 'Mobile / AI',
+    image: '/projects/project_enhancer.png',
     overview: 'Smart Image Enhancer is an AI-powered mobile application designed to improve image quality using deep learning-based super-resolution techniques. The application allows users to upload low-quality or blurry images and enhance them using ESRGAN-based AI models.',
     features: [
       'AI-powered image enhancement',
@@ -112,6 +115,7 @@ export const projectsData: Project[] = [
     id: 'car-damage-detection',
     title: 'Car Damage Detection System',
     category: 'AI / Machine Learning',
+    image: '/projects/project_car_damage.png',
     overview: 'Car Damage Detection is a computer vision-based application developed to automatically detect vehicle damage using machine learning and object detection techniques. The project uses YOLO-based detection models to identify scratches, dents, and damaged areas from uploaded vehicle images.',
     features: [
       'Automated car damage detection',
