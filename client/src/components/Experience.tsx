@@ -181,7 +181,7 @@ const ExperienceEntry = ({ exp, isEven }: { exp: ExperienceItem, isEven: boolean
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className={`w-full md:w-1/2 flex flex-col justify-center px-4 md:px-12 ${isEven ? 'md:order-2 text-left' : 'md:order-1 md:text-right'}`}
+        className={`w-full md:w-1/2 flex flex-col justify-center px-4 md:px-12 ${isEven ? 'md:order-2' : 'md:order-1'} text-left`}
       >
         <motion.div 
           whileHover={{ y: -6, borderColor: 'rgba(6, 182, 212, 0.3)', backgroundColor: 'rgba(255, 255, 255, 0.08)', boxShadow: '0 10px 40px rgba(6, 182, 212, 0.08)' }}
@@ -192,8 +192,8 @@ const ExperienceEntry = ({ exp, isEven }: { exp: ExperienceItem, isEven: boolean
             {exp.logo && <Image src={exp.logo} alt="" width={200} height={200} />}
           </div>
 
-          <div className={`flex flex-col ${isEven ? 'items-start' : 'md:items-end'} mb-6 gap-4`}>
-            <div className={`flex items-center gap-4 ${isEven ? '' : 'md:flex-row-reverse text-right'}`}>
+          <div className="flex flex-col items-start mb-6 gap-4">
+            <div className="flex items-center gap-4">
               {exp.logo && (
                 <div className="w-12 h-12 rounded-xl overflow-hidden border border-white/10 bg-white/5 shrink-0 shadow-lg">
                   <Image src={exp.logo} alt={exp.company} width={48} height={48} className="w-full h-full object-cover" />
@@ -209,16 +209,16 @@ const ExperienceEntry = ({ exp, isEven }: { exp: ExperienceItem, isEven: boolean
             </span>
           </div>
 
-          <ul className={`space-y-4 mb-8 ${isEven ? 'text-left' : 'md:text-right'}`}>
+          <ul className="space-y-4 mb-8 text-left">
             {exp.achievements.map((achievement: string, i: number) => (
-              <li key={i} className={`flex items-start gap-3 text-gray-300 text-sm leading-relaxed ${isEven ? '' : 'md:flex-row-reverse'}`}>
+              <li key={i} className="flex items-start gap-3 text-gray-300 text-sm leading-relaxed">
                 <span className="mt-2 w-1.5 h-1.5 rounded-full bg-cyan-500 shrink-0 shadow-[0_0_8px_rgba(6,182,212,1)]" />
                 <span>{achievement}</span>
               </li>
             ))}
           </ul>
 
-          <div className={`flex flex-wrap gap-2 ${isEven ? 'justify-start' : 'md:justify-end'}`}>
+          <div className="flex flex-wrap gap-2 justify-start">
             {exp.techs.map((tech: string) => (
               <motion.span 
                 key={tech} 
