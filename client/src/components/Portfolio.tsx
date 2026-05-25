@@ -124,7 +124,7 @@ const Portfolio = () => {
                 >
                   <div className="flex flex-col group cursor-pointer">
                     {/* Image Container */}
-                    <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-900 shadow-lg group-hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] transition-shadow duration-300">
+                    <div className="relative w-full aspect-[4/3] overflow-hidden rounded-t-2xl bg-gray-900 shadow-lg group-hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] transition-shadow duration-300">
                       {project.image ? (
                         <Image 
                           src={project.image}
