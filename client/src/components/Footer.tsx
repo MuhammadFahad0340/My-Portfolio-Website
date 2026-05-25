@@ -12,7 +12,7 @@ const Footer = () => {
         {/* Left: Branding */}
         <div className="flex flex-col items-center md:items-start gap-2">
           <Link href="/" className="flex items-center gap-2">
-            <img src="/logo.png" alt="Fahad Logo" className="h-8 object-contain bg-white rounded-lg p-1 opacity-75 hover:opacity-100 transition-opacity" />
+            <img src="/logo.png" alt="Fahad Logo" className="h-8 object-contain opacity-75 hover:opacity-100 transition-opacity" />
           </Link>
           <p className="text-[10px] uppercase tracking-[0.2em]">© {new Date().getFullYear()} All Rights Reserved</p>
         </div>

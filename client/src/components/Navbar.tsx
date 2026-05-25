@@ -42,7 +42,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className={`flex items-center gap-3 overflow-hidden transition-all duration-500 ${isScrolled ? 'max-w-0 opacity-0' : 'max-w-xs opacity-100'}`}>
             <Link href="/">
-              <img src="/logo.png" alt="Fahad Logo" className="h-10 sm:h-12 object-contain bg-white rounded-xl p-1.5 hover:scale-105 transition-transform" />
+              <img src="/logo.png" alt="Fahad Logo" className="h-10 sm:h-12 object-contain hover:scale-105 transition-transform" />
             </Link>
           </div>
 
