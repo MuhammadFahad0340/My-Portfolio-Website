@@ -65,10 +65,10 @@ const Hero = () => {
             </div>
             
             <h1 className="text-5xl md:text-6xl xl:text-7xl font-black uppercase leading-none tracking-tight">
-              Fahad
+              Muhammad
               <br />
               <span className="inline-flex items-center gap-4 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500">
-                Developer ✦
+                Fahad ✦
               </span>
             </h1>
 
