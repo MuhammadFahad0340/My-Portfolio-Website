@@ -16,26 +16,26 @@ export default function WorldMap() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="relative w-full rounded-2xl overflow-hidden border border-white/5"
-      style={{ background: 'rgba(11, 3, 27, 0.6)', aspectRatio: '16/7' }}
+      className="relative w-full mt-12 rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl"
+      style={{ background: 'rgba(11, 3, 27, 0.6)', height: '320px' }}
     >
       {/* Cyan center glow behind Pakistan */}
       <div
         className="absolute pointer-events-none"
         style={{
-          left: '67.5%',
-          top: '34%',
+          left: '50%',
+          top: '40%',
           transform: 'translate(-50%, -50%)',
-          width: 120,
-          height: 120,
-          background: 'radial-gradient(circle, rgba(6,182,212,0.25) 0%, transparent 70%)',
+          width: 160,
+          height: 160,
+          background: 'radial-gradient(circle, rgba(6,182,212,0.2) 0%, transparent 70%)',
           borderRadius: '50%',
         }}
       />
 
       <ComposableMap
         projection="geoNaturalEarth1"
-        projectionConfig={{ scale: 155, center: [20, 10] }}
+        projectionConfig={{ scale: 600, center: [73.0479, 28] }}
         style={{ width: '100%', height: '100%' }}
       >
         <ZoomableGroup zoom={1} minZoom={1} maxZoom={1}>
