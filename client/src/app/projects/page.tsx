@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { projectsData } from '@/data/projectsData';
-import { FiArrowLeft, FiCheckCircle } from 'react-icons/fi';
+import { FiArrowLeft, FiCheckCircle, FiExternalLink } from 'react-icons/fi';
 
 const ProjectsPage = () => {
   return (
@@ -80,9 +80,19 @@ const ProjectsPage = () => {
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                       {project.title}
                     </h2>
-                    <p className="text-gray-300 text-lg leading-relaxed">
+                    <p className="text-gray-300 text-lg leading-relaxed mb-6">
                       {project.overview}
                     </p>
+                    {project.link && (
+                      <a 
+                        href={project.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center px-6 py-2.5 bg-transparent border border-cyan-500 text-cyan-400 font-bold text-sm tracking-widest uppercase rounded-full hover:bg-cyan-500 hover:text-[#0b031b] transition-all duration-300 shadow-[0_0_15px_rgba(6,182,212,0.15)] hover:shadow-[0_0_20px_rgba(6,182,212,0.4)]"
+                      >
+                        Visit Live Site <FiExternalLink className="ml-2" />
+                      </a>
+                    )}
                   </div>
 
                   {/* Technologies */}

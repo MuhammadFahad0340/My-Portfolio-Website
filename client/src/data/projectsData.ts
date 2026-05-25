@@ -3,6 +3,7 @@ export interface Project {
   title: string;
   category: string;
   image?: string;
+  link?: string;
   overview: string;
   features: string[];
   technologies: string[];
@@ -16,6 +17,7 @@ export const projectsData: Project[] = [
     title: 'M&H Advocates & Corporate Consultants Platform',
     category: 'Full Stack',
     image: '/projects/project_law_firm.jpeg',
+    link: 'https://law-site-theta.vercel.app/',
     overview: 'Developed during an internship at Al-Raheem Technologies, this production-ready law firm platform was built from scratch to manage legal services, client intake, appointment scheduling, and secure form handling. The platform focused on creating a professional, scalable, and secure digital experience for legal clients and administrators.',
     features: [
       'Case management system',
@@ -37,6 +39,7 @@ export const projectsData: Project[] = [
     title: 'Presence+ — Enhanced Bluetooth Attendance',
     category: 'Mobile / AI',
     image: '/projects/project_presence.png',
+    link: 'https://presence-plus-six.vercel.app/',
     overview: 'Presence+ is a smart attendance management system designed to automate classroom attendance using Bluetooth-based proximity detection and real-time synchronization. The application provides separate interfaces for teachers and students, making attendance management fast, secure, and efficient.',
     features: [
       'Bluetooth-based automatic attendance marking',
@@ -78,6 +81,7 @@ export const projectsData: Project[] = [
     title: 'Digital Marketing Landing Page',
     category: 'Web App',
     image: '/projects/project_marketing.png',
+    link: 'https://digital-marketing-h9qxrx6ze-muhammad-fahads-projects-e373b84d.vercel.app/',
     overview: 'This project is a modern and highly interactive digital marketing landing page developed to deliver an engaging user experience with clean animations and reusable UI components. The landing page focuses on performance, responsiveness, and modern frontend design principles.',
     features: [
       'Modern responsive UI design',
