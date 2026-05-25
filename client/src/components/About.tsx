@@ -65,7 +65,7 @@ const About = () => {
           <div className="relative w-72 h-96 rounded-2xl overflow-hidden border-2 border-white/10 shadow-[0_0_30px_rgba(6,182,212,0.15)] group">
              {/* Using the generated hero image as a placeholder for Fahad's portrait */}
              <Image 
-                src="/hero_developer.png"
+                src="/hero-photos/fahad.jpeg"
                 alt="Muhammad Fahad"
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
