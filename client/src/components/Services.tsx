@@ -2,26 +2,38 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiLayers, FiServer, FiCpu, FiArrowDown } from 'react-icons/fi';
+import { FiLayout, FiServer, FiSmartphone, FiCpu, FiDatabase, FiArrowDown } from 'react-icons/fi';
 import Link from 'next/link';
 
 const services = [
   {
-    icon: FiLayers,
-    title: 'UI-UX & FRONTEND DEV',
-    description: 'Crafting pixel-perfect, highly responsive, and interactive frontend interfaces using React.js, Next.js, and Tailwind CSS.',
+    icon: FiLayout,
+    title: 'FRONTEND DEVELOPMENT',
+    description: 'Building pixel-perfect, highly responsive interfaces using React.js, Next.js, TypeScript, and Tailwind CSS with CI/CD-ready architecture.',
     active: true,
   },
   {
     icon: FiServer,
-    title: 'BACKEND & WEB SYSTEMS',
-    description: 'Building robust relational databases, secure API routes, serverless functions, and microservices with Node.js and Express.',
+    title: 'BACKEND & API DEVELOPMENT',
+    description: 'Designing secure, scalable server-side systems with Node.js, Express.js, REST APIs, JWT authentication, and role-based access control.',
+    active: false,
+  },
+  {
+    icon: FiSmartphone,
+    title: 'MOBILE APP DEVELOPMENT',
+    description: 'Delivering cross-platform mobile applications with Flutter and Dart following clean MVVM architecture with real-time sync capabilities.',
     active: false,
   },
   {
     icon: FiCpu,
-    title: 'AI & MOBILE INTEGRATION',
-    description: 'Deploying machine learning models (YOLO), real-time WebSockets, and cross-platform mobile apps built with Flutter.',
+    title: 'AI & ML INTEGRATION',
+    description: 'Integrating machine learning models (YOLO, ESRGAN) with Python and Flask backends, real-time WebSocket pipelines, and computer vision workflows.',
+    active: false,
+  },
+  {
+    icon: FiDatabase,
+    title: 'DATABASE DESIGN',
+    description: 'Architecting and managing relational and NoSQL databases including MySQL, MongoDB, Supabase, and PostgreSQL for production-grade applications.',
     active: false,
   },
 ];
@@ -70,7 +82,7 @@ const Services = () => {
           </div>
 
           {/* Cards Grid */}
-          <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((svc, i) => {
               const Icon = svc.icon;
               return (
