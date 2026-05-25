@@ -33,7 +33,7 @@ const Portfolio = () => {
     : projectsData.filter(project => project.category === activeTab);
 
   return (
-    <section id="portfolio" className="w-full min-h-screen bg-[#1a1a1a] py-20 px-6 md:px-12 text-white font-sans">
+    <section id="portfolio" className="w-full min-h-screen bg-transparent py-20 px-6 md:px-12 text-white font-sans">
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}

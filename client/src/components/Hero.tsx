@@ -22,7 +22,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative w-full min-h-screen flex flex-col bg-[#0b031b] overflow-hidden text-white font-sans">
+    <section className="relative w-full min-h-screen flex flex-col bg-transparent overflow-hidden text-white font-sans">
 
       {/* Background glows */}
       <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-purple-900/10 rounded-full blur-[140px] pointer-events-none" />

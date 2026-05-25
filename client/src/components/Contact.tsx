@@ -45,7 +45,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="w-full py-24 px-6 md:px-12 bg-[#0b031b] text-white font-sans relative overflow-hidden">
+    <section id="contact" className="w-full py-24 px-6 md:px-12 bg-transparent text-white font-sans relative overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-cyan-900/10 rounded-full blur-[100px] pointer-events-none" />

@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function ExperiencePage() {
   return (
-    <main className="flex min-h-screen flex-col bg-[#0b031b] pt-28">
+    <main className="flex min-h-screen flex-col bg-transparent pt-28">
       <Experience />
     </main>
   );

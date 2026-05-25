@@ -11,7 +11,7 @@ export default function Home() {
       <Hero />
       
       {/* Spacer to push sections below the hero visually */}
-      <div className="w-full bg-[#0b031b]">
+      <div className="w-full bg-transparent">
         
         {/* About Section */}
         <About />
@@ -26,13 +26,13 @@ export default function Home() {
           <Skills />
         </div>
 
-        {/* Projects Section */}
-        <div id="portfolio" className="bg-[#0f1424]">
+        {/* Projects Section - glassmorphic overlay for grouping */}
+        <div id="portfolio" className="bg-[#0f1424]/40 backdrop-blur-sm border-y border-white/5">
           <Portfolio />
         </div>
 
         {/* CTA Section */}
-        <section className="w-full py-24 px-6 md:px-12 bg-[#0b031b] flex flex-col items-center justify-center text-center relative border-t border-white/5">
+        <section className="w-full py-24 px-6 md:px-12 bg-transparent flex flex-col items-center justify-center text-center relative border-t border-white/5">
           {/* Decorative Glow */}
           <div className="absolute inset-0 flex justify-center items-center pointer-events-none opacity-20">
             <div className="w-64 h-64 bg-cyan-500 rounded-full blur-[100px]" />

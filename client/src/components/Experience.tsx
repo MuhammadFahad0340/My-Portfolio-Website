@@ -216,7 +216,7 @@ const ExperienceEntry = ({ exp, isEven }: { exp: ExperienceItem, isEven: boolean
 
 const Experience = () => {
   return (
-    <section id="experience" className="w-full py-24 px-6 md:px-12 bg-[#0b031b] text-white font-sans overflow-hidden">
+    <section id="experience" className="w-full py-24 px-6 md:px-12 bg-transparent text-white font-sans overflow-hidden">
       <div className="max-w-[1400px] mx-auto">
         <div className="text-center mb-24">
           <p className="text-xs font-bold tracking-[0.3em] text-cyan-500 uppercase mb-3">Career Path</p>

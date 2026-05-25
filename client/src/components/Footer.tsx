@@ -6,7 +6,7 @@ import { FaLinkedin, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa6';
 
 const Footer = () => {
   return (
-    <footer className="w-full py-12 px-6 md:px-12 bg-[#0b031b] border-t border-white/5 text-white/50">
+    <footer className="w-full py-12 px-6 md:px-12 bg-transparent border-t border-white/5 text-white/50">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
         
         {/* Left: Branding */}

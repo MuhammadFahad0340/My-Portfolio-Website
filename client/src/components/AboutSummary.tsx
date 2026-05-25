@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const AboutSummary = () => {
   return (
-    <section id="about" className="w-full py-24 px-6 md:px-12 bg-[#0b031b] text-white flex justify-center items-center font-sans border-t border-white/5">
+    <section id="about" className="w-full py-24 px-6 md:px-12 bg-transparent text-white flex justify-center items-center font-sans border-t border-white/5">
       <div className="max-w-4xl w-full flex flex-col items-center text-center">
         <h2 className="text-3xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
           Who is Muhammad Fahad?

@@ -363,7 +363,7 @@ const Skills = () => {
     : skillCategories;
 
   return (
-    <section id="skills" className="w-full py-24 px-6 md:px-12 bg-[#0b031b] text-white font-sans relative overflow-visible">
+    <section id="skills" className="w-full py-24 px-6 md:px-12 bg-transparent text-white font-sans relative overflow-visible">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto relative z-10">
