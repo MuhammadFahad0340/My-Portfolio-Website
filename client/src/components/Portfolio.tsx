@@ -5,28 +5,10 @@ import { motion, AnimatePresence, Variants } from 'framer-motion';
 import BorderGlow from './BorderGlow';
 import RippleGrid from './RippleGrid';
 
-const projectsData = [
-  {
-    id: 1,
-    title: 'Presence+ Bluetooth System',
-    category: 'Flutter',
-    image: '/project_presence.png',
-  },
-  {
-    id: 2,
-    title: 'Law Firm Web System',
-    category: 'React / Node.js',
-    image: '/project_law_firm.png',
-  },
-  {
-    id: 3,
-    title: 'Fahad-Bot AI Assistant',
-    category: 'Next.js',
-    image: '/project_chatbot.png',
-  },
-];
+import { projectsData } from '@/data/projectsData';
+import Link from 'next/link';
 
-const categories = ['All', 'React / Node.js', 'Next.js', 'Flutter'];
+const categories = ['All', 'Full Stack', 'Web App', 'Mobile / AI', 'AI / Machine Learning'];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -142,23 +124,33 @@ const Portfolio = () => {
                 >
                   <div className="flex flex-col group cursor-pointer">
                     {/* Image Container */}
-                    <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-900 shadow-lg">
-                      <Image 
-                        src={project.image}
-                        alt={project.title}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
+                    <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-900 shadow-lg group-hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] transition-shadow duration-300">
+                      {project.image ? (
+                        <Image 
+                          src={project.image}
+                          alt={project.title}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#111625] to-[#0a0f1c] flex flex-col items-center justify-center p-6 text-center border-b border-white/5">
+                           <div className="w-16 h-16 mb-4 rounded-full bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20 group-hover:scale-110 transition-transform duration-500">
+                              <span className="text-2xl text-cyan-400 font-mono font-bold">{project.category.charAt(0)}</span>
+                           </div>
+                           <p className="text-xs text-gray-400 tracking-widest uppercase">Visuals Coming Soon</p>
+                        </div>
+                      )}
+                      
                       {/* Hover overlay */}
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                      <Link href={`/projects#${project.id}`} className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
                         <motion.span 
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          className="px-6 py-2.5 border border-cyan-400 text-cyan-400 font-bold text-xs tracking-widest uppercase hover:bg-cyan-400 hover:text-[#0b031b] hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all duration-300"
+                          className="px-6 py-2.5 bg-cyan-500 text-[#0b031b] font-bold text-xs tracking-widest uppercase rounded-full shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all duration-300"
                         >
                           View Project
                         </motion.span>
-                      </div>
+                      </Link>
                     </div>
                     
                     {/* Text Container */}
