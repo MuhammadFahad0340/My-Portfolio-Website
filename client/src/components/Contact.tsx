@@ -153,7 +153,6 @@ const Contact = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="John Doe"
                   required
                   disabled={status === 'loading'}
                   className="w-full bg-[#1a1f35] rounded-xl px-4 py-3 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-colors text-white placeholder-gray-500 disabled:opacity-50 text-sm"
@@ -167,7 +166,6 @@ const Contact = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="contact@example.com"
                   required
                   disabled={status === 'loading'}
                   className="w-full bg-[#1a1f35] rounded-xl px-4 py-3 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-colors text-white placeholder-gray-500 disabled:opacity-50 text-sm"
@@ -181,7 +179,6 @@ const Contact = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  placeholder="+1 (800) 123 4567"
                   required
                   inputMode="numeric"
                   disabled={status === 'loading'}

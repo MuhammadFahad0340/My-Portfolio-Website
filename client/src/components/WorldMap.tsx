@@ -108,7 +108,7 @@ export default function WorldMap() {
                   letterSpacing: '0.04em',
                 }}
               >
-                We are here
+                I am here
               </text>
             </g>
 
