@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import BorderGlow from './BorderGlow';
+import Galaxy from './Galaxy';
 
 const projectsData = [
   {
@@ -60,7 +61,23 @@ const Portfolio = () => {
 
   return (
     <section id="portfolio" className="w-full min-h-screen bg-transparent py-24 px-6 md:px-12 text-white font-sans relative overflow-hidden">
-      <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-cyan-900/10 rounded-full blur-[120px] pointer-events-none" />
+      {/* Galaxy starfield background */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <Galaxy
+          mouseInteraction={false}
+          mouseRepulsion={false}
+          transparent={true}
+          hueShift={185}
+          saturation={0.7}
+          density={1.2}
+          glowIntensity={0.4}
+          twinkleIntensity={0.4}
+          rotationSpeed={0.03}
+          starSpeed={0.3}
+          speed={0.6}
+        />
+      </div>
+      <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-cyan-900/10 rounded-full blur-[120px] pointer-events-none z-0" />
       
       <div className="max-w-7xl mx-auto relative z-10">
         
