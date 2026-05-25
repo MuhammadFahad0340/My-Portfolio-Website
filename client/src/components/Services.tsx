@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiLayout, FiServer, FiSmartphone, FiCpu, FiDatabase } from 'react-icons/fi';
+import { FiLayout, FiServer, FiSmartphone, FiCpu, FiDatabase, FiArrowDown } from 'react-icons/fi';
 
 const services = [
   {
