@@ -1,5 +1,5 @@
 import Hero from "@/components/Hero";
-import About from "@/components/About";
+import Services from "@/components/Services";
 import Experience from "@/components/Experience";
 import Skills from "@/components/Skills";
 import Portfolio from "@/components/Portfolio";
@@ -13,8 +13,8 @@ export default function Home() {
       {/* Spacer to push sections below the hero visually */}
       <div className="w-full bg-transparent">
         
-        {/* About Section */}
-        <About />
+        {/* Services Section */}
+        <Services />
 
         {/* Experience Section */}
         <div id="experience">

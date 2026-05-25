@@ -1,181 +1,186 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-
-// Add your images to /public/hero-photos/ and list them here
-const heroImages = [
-  '/hero-photos/fahad.jpeg',
-  '/hero-photos/pic.jpg',
-  '/hero-photos/pic3.jpg',
-];
+import { FiCheck, FiArrowDownRight, FiArrowDown } from 'react-icons/fi';
 
 const Hero = () => {
-  const [currentImg, setCurrentImg] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentImg((prev) => (prev + 1) % heroImages.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, []);
-
   return (
     <section className="relative w-full min-h-screen flex flex-col bg-transparent overflow-hidden text-white font-sans">
-      {/* Background glows */}
-      <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-purple-900/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-cyan-900/10 rounded-full blur-[120px] pointer-events-none" />
+      <style>{`
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-marquee-scroll {
+          display: flex;
+          width: max-content;
+          animation: marquee 20s linear infinite;
+        }
+      `}</style>
 
-      {/* Main Content */}
-      <div className="relative z-10 flex-1 flex flex-col lg:flex-row items-center justify-between w-full px-10 md:px-20 xl:px-32 pt-28 pb-16 gap-12">
+      {/* Decorative Glows */}
+      <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-purple-900/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] bg-cyan-900/10 rounded-full blur-[120px] pointer-events-none" />
+
+      {/* Template navigation helper - top right aligned inside hero container visually */}
+      <div className="absolute top-8 right-10 z-20 hidden xl:flex gap-12 text-xs font-semibold tracking-wider">
+        <Link href="#portfolio" className="group flex flex-col items-start gap-1">
+          <span className="flex items-center gap-1 text-gray-300 group-hover:text-cyan-400 transition-colors">
+            MY PROJECTS <FiArrowDownRight className="text-cyan-500" />
+          </span>
+          <span className="text-[10px] text-gray-500 font-medium">See all my work</span>
+        </Link>
+        <Link href="#services" className="group flex flex-col items-start gap-1">
+          <span className="flex items-center gap-1 text-gray-300 group-hover:text-cyan-400 transition-colors">
+            ABOUT ME <FiArrowDownRight className="text-cyan-500" />
+          </span>
+          <span className="text-[10px] text-gray-500 font-medium">Learn what I offer</span>
+        </Link>
+        <Link href="#contact" className="group flex flex-col items-start gap-1">
+          <span className="flex items-center gap-1 text-gray-300 group-hover:text-cyan-400 transition-colors">
+            CONTACT ME <FiArrowDownRight className="text-cyan-500" />
+          </span>
+          <span className="text-[10px] text-gray-500 font-medium">fahadfaheem178@gmail.com</span>
+        </Link>
+      </div>
+
+      {/* Main Content Row */}
+      <div className="relative z-10 flex-1 flex flex-col lg:flex-row items-center justify-between w-full px-6 md:px-16 xl:px-32 pt-32 pb-16 gap-12">
         
-        {/* ── LEFT: Bio & CTAs ── */}
-        <div className="w-full lg:w-1/2 flex flex-col justify-center gap-7 text-center lg:text-left">
+        {/* ── LEFT COLUMN: Text, Checklist & CTAs ── */}
+        <div className="w-full lg:w-1/2 flex flex-col justify-center gap-8 text-left">
+          
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="space-y-4"
           >
-            <motion.p 
-              initial={{ opacity: 0, letterSpacing: '0.1em' }}
-              animate={{ opacity: 1, letterSpacing: '0.3em' }}
-              transition={{ duration: 1, delay: 0.1 }}
-              className="text-xs font-bold text-cyan-500 uppercase mb-4"
-            >
-              MERN Stack · Flutter · Full-Stack Developer
-            </motion.p>
-            <h1 className="text-5xl md:text-6xl xl:text-7xl font-extrabold uppercase leading-[1.05] mb-5 tracking-tight">
-              Muhammad
+            <div className="flex items-center gap-2">
+              <span className="text-2xl animate-bounce">👋</span>
+              <span className="text-sm font-extrabold uppercase tracking-[0.25em] text-cyan-400">Hello! I&apos;m</span>
+            </div>
+            
+            <h1 className="text-5xl md:text-6xl xl:text-7xl font-black uppercase leading-none tracking-tight">
+              Fahad
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500">
-                Fahad
+              <span className="inline-flex items-center gap-4 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500">
+                Developer ✦
               </span>
             </h1>
+
+            <p className="text-sm md:text-base text-gray-400 leading-relaxed max-w-xl pt-2 font-medium">
+              I am a CS Final Year student at <span className="text-white font-semibold">NUST</span> and an impact-driven developer. I specialize in backend architecture design, clean interactive frontends, and cross-platform mobile products.
+            </p>
           </motion.div>
 
-          <motion.p 
+          {/* Bullet points checklist */}
+          <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base md:text-lg text-gray-300 leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium"
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="space-y-3"
           >
-            Impact-driven <span className="text-white font-semibold underline decoration-cyan-500/40 decoration-2">Full Stack Developer</span> with 1+ year of professional experience. CS Final Year student at <span className="text-cyan-400 font-semibold">NUST</span>, building scalable web systems & innovative mobile apps — ready to contribute from day one.
-          </motion.p>
+            {[
+              'Build robust & scalable web systems',
+              'Craft responsive, interactive frontends',
+              'Deliver cross-platform Flutter applications'
+            ].map((text) => (
+              <div key={text} className="flex items-center gap-3 text-sm text-gray-300 font-semibold">
+                <div className="w-5 h-5 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
+                  <FiCheck size={12} />
+                </div>
+                <span>{text}</span>
+              </div>
+            ))}
+          </motion.div>
 
-          {/* Stats row */}
+          {/* CTA Row */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-wrap justify-center lg:justify-start gap-8"
+            className="flex items-center gap-8 pt-4"
           >
-            {[
-              { value: '1+', label: 'Year of XP' },
-              { value: '5+', label: 'Projects Shipped' },
-              { value: 'MERN', label: 'Stack Expert' },
-            ].map((stat) => (
-              <motion.div 
-                key={stat.label} 
-                className="flex flex-col p-3 px-4 bg-white/5 backdrop-blur-md rounded-2xl border border-white/5 shadow-lg min-w-28"
-                whileHover={{ scale: 1.05, borderColor: 'rgba(6, 182, 212, 0.25)', boxShadow: '0 8px 30px rgba(6, 182, 212, 0.1)' }}
-                transition={{ duration: 0.2 }}
-              >
-                <span className="text-2xl font-extrabold text-cyan-400">{stat.value}</span>
-                <span className="text-[10px] text-gray-500 uppercase tracking-widest mt-0.5">{stat.label}</span>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* CTAs */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-wrap gap-4 justify-center lg:justify-start"
-          >
-            <Link href="#portfolio">
-              <motion.div 
-                className="relative inline-block group cursor-pointer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-cyan-500 transition-all duration-300 group-hover:w-full group-hover:h-full" />
-                <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-cyan-500 transition-all duration-300 group-hover:w-full group-hover:h-full" />
-                <button className="relative z-10 px-8 py-3.5 font-bold text-sm tracking-widest uppercase text-white bg-transparent">
-                  View My Work
-                </button>
-              </motion.div>
+            <Link href="#contact" className="px-8 py-4 bg-white text-[#0b031b] font-bold text-xs tracking-widest uppercase rounded-full hover:bg-cyan-400 hover:shadow-[0_0_25px_rgba(6,182,212,0.4)] transition-all duration-300">
+              Let&apos;s Talk
             </Link>
 
-            <Link href="/contact">
-              <motion.button 
-                whileHover={{ scale: 1.05, backgroundColor: 'rgba(6, 182, 212, 0.12)', borderColor: 'rgba(6, 182, 212, 0.8)', boxShadow: '0 0 25px rgba(6, 182, 212, 0.4)' }}
-                whileTap={{ scale: 0.98 }}
-                className="px-8 py-3.5 rounded-full border border-cyan-500/40 text-sm font-bold tracking-widest uppercase text-cyan-400 transition-all duration-300"
-              >
-                Get In Touch
-              </motion.button>
-            </Link>
+            <a 
+              href="/resume.pdf" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-white border-b-2 border-white/30 hover:border-cyan-400 hover:text-cyan-400 pb-1.5 transition-colors duration-300"
+            >
+              Download CV <FiArrowDown className="text-sm" />
+            </a>
           </motion.div>
 
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.5 }}
-            transition={{ duration: 1, delay: 0.6 }}
-            className="text-xs text-gray-500"
-          >
-            fahadfaheem178@gmail.com &nbsp;·&nbsp; 0340-7418174 &nbsp;·&nbsp; Rawalpindi, Pakistan
-          </motion.p>
         </div>
 
-        {/* ── RIGHT: Photo Slideshow ── */}
+        {/* ── RIGHT COLUMN: Portrait Frame & Decorators ── */}
         <motion.div 
-          initial={{ opacity: 0, scale: 0.92 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-          className="w-full lg:w-1/2 flex items-center justify-center lg:justify-end"
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full lg:w-1/2 flex items-center justify-center lg:justify-end relative"
         >
-          <div className="relative group w-64 md:w-80 xl:w-96">
-            {/* Decorative glow */}
-            <div className="absolute -inset-4 bg-gradient-to-br from-cyan-500/25 to-purple-600/15 rounded-[2.5rem] blur-3xl opacity-60 group-hover:opacity-90 transition-opacity duration-700 pointer-events-none" />
+          {/* Main frame container */}
+          <div className="relative group w-64 md:w-80 xl:w-[350px] aspect-[3/4]">
+            
+            {/* Background glowing gradients */}
+            <div className="absolute -inset-4 bg-gradient-to-br from-cyan-500/20 to-purple-600/10 rounded-[2.5rem] blur-3xl opacity-60 group-hover:opacity-80 transition-opacity duration-700 pointer-events-none" />
 
-            {/* Slideshow card */}
-            <motion.div 
-              className="relative w-full aspect-[3/4] rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl group-hover:border-cyan-500/40 transition-all duration-500"
-              whileHover={{ y: -8, scale: 1.01 }}
-            >
-              {heroImages.map((src, i) => (
-                <Image
-                  key={src}
-                  src={src}
-                  alt={`Muhammad Fahad ${i + 1}`}
-                  fill
-                  className="object-cover object-top transition-opacity duration-1000"
-                  style={{ opacity: i === currentImg ? 1 : 0 }}
-                  priority={i === 0}
-                />
-              ))}
-              {/* Bottom fade */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0b031b]/60 via-transparent to-transparent pointer-events-none" />
-            </motion.div>
+            {/* Template-inspired accent lines/geometries */}
+            <svg className="absolute -top-10 -left-10 w-24 h-24 text-cyan-500/30 select-none pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="10" y1="90" x2="90" y2="10" />
+              <line x1="30" y1="90" x2="90" y2="30" />
+            </svg>
 
-            {/* Dot indicators */}
-            <div className="flex justify-center gap-2 mt-4">
-              {heroImages.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentImg(i)}
-                  className={`h-1.5 rounded-full transition-all duration-500 ${
-                    i === currentImg ? 'w-6 bg-cyan-500' : 'w-2 bg-white/20 hover:bg-white/40'
-                  }`}
-                />
-              ))}
+            {/* Portrait Image */}
+            <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl bg-gray-900/50">
+              <Image
+                src="/hero-photos/fahad.jpeg"
+                alt="Muhammad Fahad"
+                fill
+                className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+                priority
+              />
+              {/* Subtle overlay shading */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0b031b]/40 via-transparent to-transparent pointer-events-none" />
             </div>
+
+            {/* Rotating / Floating Graphic Circle badge: "Hello" */}
+            <div className="absolute -left-10 bottom-16 w-24 h-24 bg-[#111625] border border-white/10 rounded-full flex flex-col items-center justify-center rotate-[-12deg] shadow-2xl z-20 group-hover:scale-105 transition-transform duration-500">
+              <span className="text-[10px] font-black tracking-widest text-cyan-400 uppercase">IT&apos;S ME</span>
+              <span className="text-white font-serif text-lg tracking-tight font-black leading-tight">Fahad</span>
+            </div>
+
+            {/* Template wavy decorator path */}
+            <svg className="absolute -right-8 bottom-24 w-12 h-12 text-purple-500/40 select-none pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round">
+              <path d="M 10 50 Q 30 20 50 50 T 90 50" />
+            </svg>
+
           </div>
         </motion.div>
 
+      </div>
+
+      {/* ── BOTTOM BANNER: Scrolling Marquee ── */}
+      <div className="w-full bg-[#111625]/60 border-y border-white/5 py-5 overflow-hidden mt-auto relative select-none">
+        <div className="animate-marquee-scroll gap-16 items-center">
+          {Array(4).fill([
+            'WEB DESIGN', 'APP DESIGN', 'DEVELOPMENT', 'DATABASE SYSTEM', 'CLOUD INTEGRATION'
+          ]).flat().map((item, idx) => (
+            <span key={idx} className="flex items-center gap-12 text-xs font-black uppercase tracking-[0.25em] text-gray-400 hover:text-cyan-400 transition-colors">
+              <span>{item}</span>
+              <span className="text-cyan-500">✦</span>
+            </span>
+          ))}
+        </div>
       </div>
     </section>
   );
