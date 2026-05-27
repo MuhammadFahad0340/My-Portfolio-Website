@@ -406,7 +406,7 @@ const cardVariants: Variants = {
 const Skills = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const { isLowEnd, isMobile } = useDeviceCapability();
-  const disableGlow = isLowEnd || isMobile;
+  const disableGlow = isMobile;
   const displayed = activeCategory
     ? skillCategories.filter(c => c.label === activeCategory)
     : skillCategories;

@@ -38,7 +38,7 @@ const cardVariants: Variants = {
 const Portfolio = () => {
   const [activeTab, setActiveTab] = useState('All');
   const { isLowEnd, isMobile } = useDeviceCapability();
-  const disableGlow = isLowEnd || isMobile;
+  const disableGlow = isMobile;
 
   const filteredProjects = activeTab === 'All' 
     ? projectsData 
