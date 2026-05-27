@@ -67,7 +67,6 @@ const Contact = () => {
           opacity={0.25}
           mouseInteraction={false}
           targetFPS={isLowEnd ? 30 : 60}
-          mediump={isLowEnd}
         />
       </div>
       {/* Background glow */}

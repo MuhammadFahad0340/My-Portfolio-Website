@@ -22,8 +22,8 @@ void main() {
 }
 `;
 
-const buildFragmentShader = (numLayers: number, mediump: boolean) => `
-precision ${mediump ? 'mediump' : 'highp'} float;
+const buildFragmentShader = (numLayers: number) => `
+precision highp float;
 
 uniform float uTime;
 uniform vec3 uResolution;
@@ -201,8 +201,6 @@ interface GalaxyProps {
   className?: string;
   /** Number of depth layers for the star field. Default 4. Pass 2 for low-end devices. */
   numLayers?: number;
-  /** Use mediump float precision in the shader — faster on mobile GPUs. Default false. */
-  mediump?: boolean;
 }
 
 export default function Galaxy({
@@ -225,7 +223,6 @@ export default function Galaxy({
   style,
   className,
   numLayers = 4,
-  mediump = false,
 }: GalaxyProps) {
   const ctnDom = useRef<HTMLDivElement>(null);
   const targetMousePos   = useRef({ x: 0.5, y: 0.5 });
@@ -251,7 +248,7 @@ export default function Galaxy({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const program: any = new Program(gl, {
       vertex: buildVertexShader(),
-      fragment: buildFragmentShader(numLayers, mediump),
+      fragment: buildFragmentShader(numLayers),
       uniforms: {
         uTime:               { value: 0 },
         uResolution:         { value: new Color(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height) },

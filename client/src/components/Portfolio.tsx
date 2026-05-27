@@ -60,7 +60,6 @@ const Portfolio = () => {
           opacity={0.25}
           mouseInteraction={false}
           targetFPS={isLowEnd ? 30 : 60}
-          mediump={isLowEnd}
         />
       </div>
       <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-cyan-900/10 rounded-full blur-[120px] pointer-events-none z-0" />

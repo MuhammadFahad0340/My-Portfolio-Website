@@ -21,8 +21,6 @@ interface RippleGridProps {
   mouseInteractionRadius?: number;
   /** Cap the render loop to this frame rate. Default 60. Pass 30 for low-end devices. */
   targetFPS?: number;
-  /** Use mediump float precision — faster on mobile GPUs. Default false. */
-  mediump?: boolean;
 }
 
 const RippleGrid = ({
@@ -39,7 +37,6 @@ const RippleGrid = ({
   mouseInteraction = true,
   mouseInteractionRadius = 1,
   targetFPS = 60,
-  mediump = false,
 }: RippleGridProps) => {
   const containerRef     = useRef<HTMLDivElement>(null);
   const mousePositionRef = useRef({ x: 0.5, y: 0.5 });
@@ -66,8 +63,6 @@ const RippleGrid = ({
     gl.canvas.style.height = '100%';
     containerRef.current.appendChild(gl.canvas);
 
-    const precision = mediump ? 'mediump' : 'highp';
-
     const vert = `
 attribute vec2 position;
 varying vec2 vUv;
@@ -76,7 +71,7 @@ void main() {
     gl_Position = vec4(position, 0.0, 1.0);
 }`;
 
-    const frag = `precision ${precision} float;
+    const frag = `precision highp float;
 uniform float iTime;
 uniform vec2 iResolution;
 uniform bool enableRainbow;
