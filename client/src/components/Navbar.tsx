@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 const navLinks = [
@@ -42,7 +43,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className={`flex items-center gap-3 overflow-hidden transition-all duration-500 ${isScrolled ? 'max-w-0 opacity-0' : 'max-w-xs opacity-100'}`}>
             <Link href="/">
-              <img src="/logo.png" alt="Fahad Logo" className="h-10 sm:h-12 object-contain hover:scale-105 transition-transform" />
+              <Image src="/logo.png" alt="Fahad Logo" width={120} height={48} priority className="h-10 sm:h-12 w-auto object-contain hover:scale-105 transition-transform" />
             </Link>
           </div>
 

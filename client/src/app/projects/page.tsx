@@ -34,13 +34,13 @@ const ProjectsPage = () => {
             transition={{ delay: 0.1 }}
             className="text-gray-400 text-lg md:text-xl max-w-2xl leading-relaxed"
           >
-            A deep dive into the applications, platforms, and AI models I've built.
+            A deep dive into the applications, platforms, and AI models I&apos;ve built.
           </motion.p>
         </div>
 
         {/* Projects List */}
         <div className="space-y-32">
-          {projectsData.map((project, index) => (
+          {projectsData.map((project) => (
             <div key={project.id} id={project.id} className="scroll-mt-32">
               <motion.div
                 initial={{ opacity: 0, y: 40 }}

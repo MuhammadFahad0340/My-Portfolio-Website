@@ -247,24 +247,9 @@ export default function Galaxy({
       gl.clearColor(0, 0, 0, 1);
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let program: any;
-
-    function resize() {
-      renderer.setSize(ctn.offsetWidth, ctn.offsetHeight);
-      if (program) {
-        program.uniforms.uResolution.value = new Color(
-          gl.canvas.width,
-          gl.canvas.height,
-          gl.canvas.width / gl.canvas.height
-        );
-      }
-    }
-    window.addEventListener('resize', resize, false);
-    resize();
-
     const geometry = new Triangle(gl);
-    program = new Program(gl, {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const program: any = new Program(gl, {
       vertex: buildVertexShader(),
       fragment: buildFragmentShader(numLayers, mediump),
       uniforms: {
@@ -288,6 +273,17 @@ export default function Galaxy({
         uTransparent:        { value: transparent },
       },
     });
+
+    function resize() {
+      renderer.setSize(ctn.offsetWidth, ctn.offsetHeight);
+      program.uniforms.uResolution.value = new Color(
+        gl.canvas.width,
+        gl.canvas.height,
+        gl.canvas.width / gl.canvas.height
+      );
+    }
+    window.addEventListener('resize', resize, false);
+    resize();
 
     const mesh = new Mesh(gl, { geometry, program });
     let animateId: number;

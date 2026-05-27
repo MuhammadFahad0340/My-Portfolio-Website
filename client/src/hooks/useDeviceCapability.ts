@@ -59,7 +59,11 @@ export function useDeviceCapability(): DeviceCapability {
   const [capability, setCapability] = useState<DeviceCapability>(DEFAULT);
 
   useEffect(() => {
-    setCapability(detect());
+    // Defer to next paint so setState is not called synchronously inside the effect body.
+    // This satisfies the react-hooks/set-state-in-effect lint rule while preserving
+    // the identical runtime behavior (runs once on mount, client-side only).
+    const id = requestAnimationFrame(() => setCapability(detect()));
+    return () => cancelAnimationFrame(id);
   }, []);
 
   return capability;
