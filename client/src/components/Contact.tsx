@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiMail } from 'react-icons/fi';
 import { FaLinkedin, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa6';
 import RippleGrid from './RippleGrid';
+import { useDeviceCapability } from '@/hooks/useDeviceCapability';
 
 const WorldMap = dynamic(() => import('./WorldMap'), { ssr: false });
 
@@ -13,6 +14,7 @@ const Contact = () => {
   const [formData, setFormData] = React.useState({ name: '', email: '', phone: '', message: '' });
   const [status, setStatus] = React.useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = React.useState('');
+  const { isLowEnd } = useDeviceCapability();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -64,6 +66,8 @@ const Contact = () => {
           glowIntensity={0.08}
           opacity={0.25}
           mouseInteraction={false}
+          targetFPS={isLowEnd ? 30 : 60}
+          mediump={isLowEnd}
         />
       </div>
       {/* Background glow */}

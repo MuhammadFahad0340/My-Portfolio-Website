@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import BorderGlow from './BorderGlow';
 import RippleGrid from './RippleGrid';
+import { useDeviceCapability } from '@/hooks/useDeviceCapability';
 
 import { projectsData } from '@/data/projectsData';
 import Link from 'next/link';
@@ -36,6 +37,8 @@ const cardVariants: Variants = {
 
 const Portfolio = () => {
   const [activeTab, setActiveTab] = useState('All');
+  const { isLowEnd, isMobile } = useDeviceCapability();
+  const disableGlow = isLowEnd || isMobile;
 
   const filteredProjects = activeTab === 'All' 
     ? projectsData 
@@ -56,6 +59,8 @@ const Portfolio = () => {
           glowIntensity={0.08}
           opacity={0.25}
           mouseInteraction={false}
+          targetFPS={isLowEnd ? 30 : 60}
+          mediump={isLowEnd}
         />
       </div>
       <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-cyan-900/10 rounded-full blur-[120px] pointer-events-none z-0" />
@@ -121,6 +126,7 @@ const Portfolio = () => {
                   edgeSensitivity={25}
                   coneSpread={22}
                   colors={['#22d3ee', '#a855f7', '#3b82f6']}
+                  disableTracking={disableGlow}
                 >
                   <div className="flex flex-col group cursor-pointer">
                     {/* Image Container */}

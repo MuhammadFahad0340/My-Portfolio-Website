@@ -9,17 +9,6 @@ import { FiCheck, FiArrowDown } from 'react-icons/fi';
 const Hero = () => {
   return (
     <section className="relative w-full min-h-screen flex flex-col bg-transparent overflow-hidden text-white font-sans">
-      <style>{`
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-marquee-scroll {
-          display: flex;
-          width: max-content;
-          animation: marquee 20s linear infinite;
-        }
-      `}</style>
 
       {/* Decorative Glows */}
       <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-purple-900/10 rounded-full blur-[140px] pointer-events-none" />

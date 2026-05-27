@@ -3,7 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import InteractiveBackground from "@/components/InteractiveBackground";
+// InteractiveBackgroundLoader is a 'use client' wrapper that lazy-loads the
+// Three.js background with ssr:false — keeping layout.tsx a Server Component.
+import InteractiveBackgroundLoader from "@/components/InteractiveBackgroundLoader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +33,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-transparent">
-        <InteractiveBackground />
+        <InteractiveBackgroundLoader />
         <Navbar />
         <div className="flex-1">{children}</div>
         <Footer />

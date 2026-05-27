@@ -3,6 +3,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import BorderGlow from './BorderGlow';
+import { useDeviceCapability } from '@/hooks/useDeviceCapability';
 import {
   SiReact, SiNextdotjs, SiTypescript, SiJavascript, SiHtml5, SiTailwindcss,
   SiNodedotjs, SiExpress, SiFirebase, SiMongodb, SiMysql, SiSupabase, SiPostgresql,
@@ -404,6 +405,8 @@ const cardVariants: Variants = {
 
 const Skills = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const { isLowEnd, isMobile } = useDeviceCapability();
+  const disableGlow = isLowEnd || isMobile;
   const displayed = activeCategory
     ? skillCategories.filter(c => c.label === activeCategory)
     : skillCategories;
@@ -485,6 +488,7 @@ const Skills = () => {
                 edgeSensitivity={28}
                 coneSpread={22}
                 colors={['#22d3ee', '#a855f7', '#3b82f6']}
+                disableTracking={disableGlow}
               >
                 <div className="p-6 overflow-visible">
                   <div className="flex items-center gap-3 mb-5">

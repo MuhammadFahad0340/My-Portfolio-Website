@@ -2,6 +2,7 @@
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useRef, useEffect, useState, useMemo } from 'react';
 import * as THREE from 'three';
+import { useDeviceCapability } from '@/hooks/useDeviceCapability';
 
 // Generates a soft circular glow texture at runtime
 function createCircleTexture() {
@@ -20,102 +21,102 @@ function createCircleTexture() {
   return new THREE.CanvasTexture(canvas);
 }
 
-// Generate static random floating particles outside the render tree (pure function compliant)
-const COUNT = 350;
-const { staticPositions, staticColors } = (() => {
-  const positions = new Float32Array(COUNT * 3);
-  const colors = new Float32Array(COUNT * 3);
-  
-  const palette = [
-    new THREE.Color('#06b6d4'), // Cyan (matching portfolio accent)
-    new THREE.Color('#3b82f6'), // Blue
-    new THREE.Color('#8b5cf6'), // Purple
-    new THREE.Color('#ec4899'), // Pink
-  ];
+const palette = [
+  new THREE.Color('#06b6d4'), // Cyan
+  new THREE.Color('#3b82f6'), // Blue
+  new THREE.Color('#8b5cf6'), // Purple
+  new THREE.Color('#ec4899'), // Pink
+];
 
-  for (let i = 0; i < COUNT; i++) {
-    positions[i * 3]     = (Math.random() - 0.5) * 40; // X
-    positions[i * 3 + 1] = (Math.random() - 0.5) * 90; // Y (spread wide for vertical scrolling)
-    positions[i * 3 + 2] = (Math.random() - 0.5) * 20 - 10; // Z
-
+function buildParticles(count: number) {
+  const positions = new Float32Array(count * 3);
+  const colors = new Float32Array(count * 3);
+  for (let i = 0; i < count; i++) {
+    positions[i * 3]     = (Math.random() - 0.5) * 40;
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 90;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 20 - 10;
     const color = palette[Math.floor(Math.random() * palette.length)];
     colors[i * 3]     = color.r;
     colors[i * 3 + 1] = color.g;
     colors[i * 3 + 2] = color.b;
   }
-  return { staticPositions: positions, staticColors: colors };
-})();
+  return { positions, colors };
+}
 
-function BackgroundScene({ mouse }: { mouse: React.MutableRefObject<{ x: number; y: number }> }) {
-  const pointsRef = useRef<THREE.Points>(null);
-  const shapesRef = useRef<THREE.Group>(null);
-  
-  // Cache the circle texture
-  const texture = useMemo(() => createCircleTexture(), []);
-  // Create mutable local copies of the static particle data so we can modify them dynamically
-  const positions = useMemo(() => new Float32Array(staticPositions), []);
-  const colors = useMemo(() => new Float32Array(staticColors), []);
+// Static full-quality particle data (built once, reused if high-end)
+const FULL_COUNT = 350;
+const LOW_COUNT  = 80;
+const { positions: staticPositionsFull, colors: staticColorsFull } = buildParticles(FULL_COUNT);
+const { positions: staticPositionsLow,  colors: staticColorsLow  } = buildParticles(LOW_COUNT);
+
+interface BackgroundSceneProps {
+  mouse: React.MutableRefObject<{ x: number; y: number }>;
+  isLowEnd: boolean;
+}
+
+function BackgroundScene({ mouse, isLowEnd }: BackgroundSceneProps) {
+  const COUNT = isLowEnd ? LOW_COUNT : FULL_COUNT;
+  const staticPositions = isLowEnd ? staticPositionsLow : staticPositionsFull;
+
+  const pointsRef  = useRef<THREE.Points>(null);
+  const shapesRef  = useRef<THREE.Group>(null);
+  const texture    = useMemo(() => createCircleTexture(), []);
+
+  // Mutable copies for runtime updates
+  const positions  = useMemo(() => new Float32Array(staticPositions), [staticPositions]);
+  const colors     = useMemo(
+    () => new Float32Array(isLowEnd ? staticColorsLow : staticColorsFull),
+    [isLowEnd]
+  );
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
 
-    // Gently rotate the dust cloud and apply cursor repulsion
     if (pointsRef.current) {
       pointsRef.current.rotation.y = time * 0.01;
       pointsRef.current.rotation.x = Math.sin(time * 0.05) * 0.05;
 
-      const positionsAttr = pointsRef.current.geometry.attributes.position;
-      const posArray = positionsAttr.array as Float32Array;
-      
-      const viewport = state.viewport;
-      // Project mouse screen coordinates to world space coordinates
-      const mx = (mouse.current.x * viewport.width) / 2;
-      const my = (mouse.current.y * viewport.height) / 2;
-      
-      const repulsionRadius = 5.0; // Distance within which particles start to disperse
-      const repulsionStrength = 4.0; // Push force speed
-      const returnSpeed = 0.045; // Elastic return speed to home position
+      // Only run per-particle physics on high-end devices
+      if (!isLowEnd) {
+        const positionsAttr = pointsRef.current.geometry.attributes.position;
+        const posArray      = positionsAttr.array as Float32Array;
+        const viewport      = state.viewport;
+        const mx = (mouse.current.x * viewport.width)  / 2;
+        const my = (mouse.current.y * viewport.height) / 2;
 
-      for (let i = 0; i < COUNT; i++) {
-        const idx = i * 3;
-        
-        let x = posArray[idx];
-        let y = posArray[idx + 1];
-        let z = posArray[idx + 2];
-        
-        const ox = staticPositions[idx];
-        const oy = staticPositions[idx + 1];
-        const oz = staticPositions[idx + 2];
+        const repulsionRadius   = 5.0;
+        const repulsionStrength = 4.0;
+        const returnSpeed       = 0.045;
 
-        // 3D displacement vector from cursor to particle
-        const dx = x - mx;
-        const dy = y - my;
-        const dz = z - 0; // Cursor is projected onto Z = 0 plane
-        
-        const distSq = dx * dx + dy * dy + dz * dz;
-        const dist = Math.sqrt(distSq);
+        for (let i = 0; i < COUNT; i++) {
+          const idx = i * 3;
+          let x = posArray[idx];
+          let y = posArray[idx + 1];
+          let z = posArray[idx + 2];
+          const ox = staticPositions[idx];
+          const oy = staticPositions[idx + 1];
+          const oz = staticPositions[idx + 2];
 
-        if (dist < repulsionRadius && dist > 0.01) {
-          // Calculate push force (stronger the closer the mouse is)
-          const force = (repulsionRadius - dist) / repulsionRadius;
-          const pushRatio = force * repulsionStrength;
-          
-          x += (dx / dist) * pushRatio;
-          y += (dy / dist) * pushRatio;
-          z += (dz / dist) * pushRatio;
+          const dx     = x - mx;
+          const dy     = y - my;
+          const dz     = z;
+          const distSq = dx * dx + dy * dy + dz * dz;
+          const dist   = Math.sqrt(distSq);
+
+          if (dist < repulsionRadius && dist > 0.01) {
+            const force     = (repulsionRadius - dist) / repulsionRadius;
+            const pushRatio = force * repulsionStrength;
+            x += (dx / dist) * pushRatio;
+            y += (dy / dist) * pushRatio;
+            z += (dz / dist) * pushRatio;
+          }
+
+          posArray[idx]     = THREE.MathUtils.lerp(x, ox, returnSpeed);
+          posArray[idx + 1] = THREE.MathUtils.lerp(y, oy, returnSpeed);
+          posArray[idx + 2] = THREE.MathUtils.lerp(z, oz, returnSpeed);
         }
-
-        // Return to baseline home coordinates elastically
-        x = THREE.MathUtils.lerp(x, ox, returnSpeed);
-        y = THREE.MathUtils.lerp(y, oy, returnSpeed);
-        z = THREE.MathUtils.lerp(z, oz, returnSpeed);
-
-        posArray[idx] = x;
-        posArray[idx + 1] = y;
-        posArray[idx + 2] = z;
+        positionsAttr.needsUpdate = true;
       }
-      
-      positionsAttr.needsUpdate = true;
     }
 
     // Spin and float the wireframe shapes
@@ -127,35 +128,26 @@ function BackgroundScene({ mouse }: { mouse: React.MutableRefObject<{ x: number;
       });
     }
 
-    // Scroll mapping (dampened Y offset)
+    // Scroll + mouse parallax camera (dampened on low-end)
     const scrollY = typeof window !== 'undefined' ? window.scrollY : 0;
     const targetY = -scrollY * 0.012;
-
-    // Smoothly interpolate camera position based on scroll & mouse parallax
-    state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, mouse.current.x * 2.0, 0.05);
-    state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, targetY + mouse.current.y * 1.2, 0.05);
-
-    // Look slightly towards the center of the deep scene
+    const lerpSpeed = isLowEnd ? 0.03 : 0.05;
+    state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, mouse.current.x * 2.0, lerpSpeed);
+    state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, targetY + mouse.current.y * 1.2, lerpSpeed);
     state.camera.lookAt(state.camera.position.x * 0.8, state.camera.position.y, -30);
   });
 
   return (
     <>
       <ambientLight intensity={0.5} />
-      <pointLight position={[10, 20, 10]} intensity={1.5} color="#06b6d4" />
+      <pointLight position={[10, 20, 10]}   intensity={1.5} color="#06b6d4" />
       <pointLight position={[-10, -20, -10]} intensity={1.5} color="#8b5cf6" />
 
       {/* Particle Field */}
       <points ref={pointsRef}>
         <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            args={[positions, 3]}
-          />
-          <bufferAttribute
-            attach="attributes-color"
-            args={[colors, 3]}
-          />
+          <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+          <bufferAttribute attach="attributes-color"    args={[colors, 3]} />
         </bufferGeometry>
         <pointsMaterial
           size={0.16}
@@ -168,57 +160,61 @@ function BackgroundScene({ mouse }: { mouse: React.MutableRefObject<{ x: number;
         />
       </points>
 
-      {/* Floating 3D Wireframes */}
-      <group ref={shapesRef}>
-        {/* Near Hero (Top-Left) */}
-        <mesh position={[-6, 4, -10]}>
-          <torusGeometry args={[2.0, 0.5, 8, 36]} />
-          <meshStandardMaterial wireframe color="#06b6d4" transparent opacity={0.08} roughness={0.5} />
-        </mesh>
-        
-        {/* Near About Section (Right) */}
-        <mesh position={[7, -6, -14]}>
-          <icosahedronGeometry args={[1.8]} />
-          <meshStandardMaterial wireframe color="#8b5cf6" transparent opacity={0.10} roughness={0.5} />
-        </mesh>
+      {/* Floating 3D Wireframes — skip on very low-end to save draw calls */}
+      {!isLowEnd && (
+        <group ref={shapesRef}>
+          <mesh position={[-6, 4, -10]}>
+            <torusGeometry args={[2.0, 0.5, 8, 36]} />
+            <meshStandardMaterial wireframe color="#06b6d4" transparent opacity={0.08} roughness={0.5} />
+          </mesh>
+          <mesh position={[7, -6, -14]}>
+            <icosahedronGeometry args={[1.8]} />
+            <meshStandardMaterial wireframe color="#8b5cf6" transparent opacity={0.10} roughness={0.5} />
+          </mesh>
+          <mesh position={[-7, -18, -12]}>
+            <dodecahedronGeometry args={[1.6]} />
+            <meshStandardMaterial wireframe color="#3b82f6" transparent opacity={0.08} roughness={0.5} />
+          </mesh>
+          <mesh position={[6, -30, -12]}>
+            <octahedronGeometry args={[2.0]} />
+            <meshStandardMaterial wireframe color="#ec4899" transparent opacity={0.08} roughness={0.5} />
+          </mesh>
+          <mesh position={[-3, -42, -14]}>
+            <torusKnotGeometry args={[1.2, 0.3, 48, 6]} />
+            <meshStandardMaterial wireframe color="#06b6d4" transparent opacity={0.07} roughness={0.5} />
+          </mesh>
+        </group>
+      )}
 
-        {/* Near Experience (Left) */}
-        <mesh position={[-7, -18, -12]}>
-          <dodecahedronGeometry args={[1.6]} />
-          <meshStandardMaterial wireframe color="#3b82f6" transparent opacity={0.08} roughness={0.5} />
-        </mesh>
-
-        {/* Near Projects (Right) */}
-        <mesh position={[6, -30, -12]}>
-          <octahedronGeometry args={[2.0]} />
-          <meshStandardMaterial wireframe color="#ec4899" transparent opacity={0.08} roughness={0.5} />
-        </mesh>
-
-        {/* Near CTA Section (Center-Left) */}
-        <mesh position={[-3, -42, -14]}>
-          <torusKnotGeometry args={[1.2, 0.3, 48, 6]} />
-          <meshStandardMaterial wireframe color="#06b6d4" transparent opacity={0.07} roughness={0.5} />
-        </mesh>
-      </group>
+      {/* Simplified shapes for low-end — fewer vertices, no torus knot */}
+      {isLowEnd && (
+        <group ref={shapesRef}>
+          <mesh position={[-6, 4, -10]}>
+            <octahedronGeometry args={[2.0]} />
+            <meshStandardMaterial wireframe color="#06b6d4" transparent opacity={0.07} roughness={0.5} />
+          </mesh>
+          <mesh position={[7, -6, -14]}>
+            <icosahedronGeometry args={[1.8]} />
+            <meshStandardMaterial wireframe color="#8b5cf6" transparent opacity={0.09} roughness={0.5} />
+          </mesh>
+        </group>
+      )}
     </>
   );
 }
 
 export default function InteractiveBackground() {
-  const mouse = useRef({ x: 0, y: 0 });
+  const mouse   = useRef({ x: 0, y: 0 });
   const [mounted, setMounted] = useState(false);
+  const { isLowEnd, isSmallScreen } = useDeviceCapability();
 
   useEffect(() => {
-    // Avoid setState synchronous warning inside effect body by wrapping in animation frame
     const id = requestAnimationFrame(() => setMounted(true));
-    
     const handleMouseMove = (e: MouseEvent) => {
       mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
     };
-    
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    
     return () => {
       cancelAnimationFrame(id);
       window.removeEventListener('mousemove', handleMouseMove);
@@ -227,14 +223,35 @@ export default function InteractiveBackground() {
 
   if (!mounted) return null;
 
+  // On very small screens, replace Three.js with a pure-CSS gradient — much lighter
+  if (isSmallScreen) {
+    return (
+      <div
+        className="fixed inset-0 -z-10 w-full h-full pointer-events-none overflow-hidden"
+        style={{
+          background:
+            'radial-gradient(ellipse 80% 60% at 20% 30%, rgba(139,92,246,0.18) 0%, transparent 70%), radial-gradient(ellipse 70% 50% at 80% 70%, rgba(6,182,212,0.15) 0%, transparent 70%), #0b031b',
+        }}
+      />
+    );
+  }
+
+  // Cap device pixel ratio on low-end to halve GPU fill rate
+  const dpr: [number, number] = isLowEnd ? [1, 1] : [1, Math.min(window.devicePixelRatio, 2)];
+
   return (
     <div className="fixed inset-0 -z-10 w-full h-full pointer-events-none bg-[#0b031b] overflow-hidden">
       <Canvas
         camera={{ position: [0, 0, 5], fov: 60 }}
-        gl={{ antialias: true, alpha: true }}
+        gl={{
+          antialias: !isLowEnd,
+          alpha: true,
+          powerPreference: 'high-performance',
+        }}
+        dpr={dpr}
         style={{ width: '100vw', height: '100vh', pointerEvents: 'none' }}
       >
-        <BackgroundScene mouse={mouse} />
+        <BackgroundScene mouse={mouse} isLowEnd={isLowEnd} />
       </Canvas>
     </div>
   );

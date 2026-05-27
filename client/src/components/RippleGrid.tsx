@@ -19,6 +19,10 @@ interface RippleGridProps {
   gridRotation?: number;
   mouseInteraction?: boolean;
   mouseInteractionRadius?: number;
+  /** Cap the render loop to this frame rate. Default 60. Pass 30 for low-end devices. */
+  targetFPS?: number;
+  /** Use mediump float precision — faster on mobile GPUs. Default false. */
+  mediump?: boolean;
 }
 
 const RippleGrid = ({
@@ -34,10 +38,12 @@ const RippleGrid = ({
   gridRotation = 0,
   mouseInteraction = true,
   mouseInteractionRadius = 1,
+  targetFPS = 60,
+  mediump = false,
 }: RippleGridProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef     = useRef<HTMLDivElement>(null);
   const mousePositionRef = useRef({ x: 0.5, y: 0.5 });
-  const targetMouseRef = useRef({ x: 0.5, y: 0.5 });
+  const targetMouseRef   = useRef({ x: 0.5, y: 0.5 });
   const mouseInfluenceRef = useRef(0);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const uniformsRef = useRef<any>(null);
@@ -56,9 +62,11 @@ const RippleGrid = ({
     const gl = renderer.gl;
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-    gl.canvas.style.width = '100%';
+    gl.canvas.style.width  = '100%';
     gl.canvas.style.height = '100%';
     containerRef.current.appendChild(gl.canvas);
+
+    const precision = mediump ? 'mediump' : 'highp';
 
     const vert = `
 attribute vec2 position;
@@ -68,7 +76,7 @@ void main() {
     gl_Position = vec4(position, 0.0, 1.0);
 }`;
 
-    const frag = `precision highp float;
+    const frag = `precision ${precision} float;
 uniform float iTime;
 uniform vec2 iResolution;
 uniform bool enableRainbow;
@@ -160,29 +168,29 @@ void main() {
 }`;
 
     const uniforms = {
-      iTime: { value: 0 },
-      iResolution: { value: [1, 1] },
-      enableRainbow: { value: enableRainbow },
-      gridColor: { value: hexToRgb(gridColor) },
-      rippleIntensity: { value: rippleIntensity },
-      gridSize: { value: gridSize },
-      gridThickness: { value: gridThickness },
-      fadeDistance: { value: fadeDistance },
-      vignetteStrength: { value: vignetteStrength },
-      glowIntensity: { value: glowIntensity },
-      opacity: { value: opacity },
-      gridRotation: { value: gridRotation },
-      mouseInteraction: { value: mouseInteraction },
-      mousePosition: { value: [0.5, 0.5] },
-      mouseInfluence: { value: 0 },
+      iTime:                { value: 0 },
+      iResolution:          { value: [1, 1] },
+      enableRainbow:        { value: enableRainbow },
+      gridColor:            { value: hexToRgb(gridColor) },
+      rippleIntensity:      { value: rippleIntensity },
+      gridSize:             { value: gridSize },
+      gridThickness:        { value: gridThickness },
+      fadeDistance:         { value: fadeDistance },
+      vignetteStrength:     { value: vignetteStrength },
+      glowIntensity:        { value: glowIntensity },
+      opacity:              { value: opacity },
+      gridRotation:         { value: gridRotation },
+      mouseInteraction:     { value: mouseInteraction },
+      mousePosition:        { value: [0.5, 0.5] },
+      mouseInfluence:       { value: 0 },
       mouseInteractionRadius: { value: mouseInteractionRadius },
     };
 
     uniformsRef.current = uniforms;
 
     const geometry = new Triangle(gl);
-    const program = new Program(gl, { vertex: vert, fragment: frag, uniforms });
-    const mesh = new Mesh(gl, { geometry, program });
+    const program  = new Program(gl, { vertex: vert, fragment: frag, uniforms });
+    const mesh     = new Mesh(gl, { geometry, program });
 
     const resize = () => {
       if (!containerRef.current) return;
@@ -210,8 +218,18 @@ void main() {
     }
     resize();
 
+    // Frame-rate throttle: only render when enough time has elapsed
+    const frameInterval = 1000 / targetFPS;
+    let lastFrameTime = 0;
     let rafId: number;
+
     const render = (t: number) => {
+      rafId = requestAnimationFrame(render);
+
+      const elapsed = t - lastFrameTime;
+      if (elapsed < frameInterval) return; // skip frame — throttled
+      lastFrameTime = t - (elapsed % frameInterval); // stay in sync
+
       uniforms.iTime.value = t * 0.001;
 
       const lerpFactor = 0.1;
@@ -223,7 +241,6 @@ void main() {
       uniforms.mousePosition.value = [mousePositionRef.current.x, mousePositionRef.current.y];
 
       renderer.render({ scene: mesh });
-      rafId = requestAnimationFrame(render);
     };
 
     rafId = requestAnimationFrame(render);
@@ -251,17 +268,17 @@ void main() {
         ? [parseInt(result[1], 16) / 255, parseInt(result[2], 16) / 255, parseInt(result[3], 16) / 255]
         : [1, 1, 1];
     };
-    uniformsRef.current.enableRainbow.value = enableRainbow;
-    uniformsRef.current.gridColor.value = hexToRgb(gridColor);
-    uniformsRef.current.rippleIntensity.value = rippleIntensity;
-    uniformsRef.current.gridSize.value = gridSize;
-    uniformsRef.current.gridThickness.value = gridThickness;
-    uniformsRef.current.fadeDistance.value = fadeDistance;
-    uniformsRef.current.vignetteStrength.value = vignetteStrength;
-    uniformsRef.current.glowIntensity.value = glowIntensity;
-    uniformsRef.current.opacity.value = opacity;
-    uniformsRef.current.gridRotation.value = gridRotation;
-    uniformsRef.current.mouseInteraction.value = mouseInteraction;
+    uniformsRef.current.enableRainbow.value        = enableRainbow;
+    uniformsRef.current.gridColor.value            = hexToRgb(gridColor);
+    uniformsRef.current.rippleIntensity.value      = rippleIntensity;
+    uniformsRef.current.gridSize.value             = gridSize;
+    uniformsRef.current.gridThickness.value        = gridThickness;
+    uniformsRef.current.fadeDistance.value         = fadeDistance;
+    uniformsRef.current.vignetteStrength.value     = vignetteStrength;
+    uniformsRef.current.glowIntensity.value        = glowIntensity;
+    uniformsRef.current.opacity.value              = opacity;
+    uniformsRef.current.gridRotation.value         = gridRotation;
+    uniformsRef.current.mouseInteraction.value     = mouseInteraction;
     uniformsRef.current.mouseInteractionRadius.value = mouseInteractionRadius;
   }, [
     enableRainbow, gridColor, rippleIntensity, gridSize, gridThickness,

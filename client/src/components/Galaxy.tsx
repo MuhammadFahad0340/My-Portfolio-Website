@@ -6,7 +6,11 @@ import { Renderer, Program, Mesh, Color, Triangle } from 'ogl';
 import { useEffect, useRef } from 'react';
 import './Galaxy.css';
 
-const vertexShader = `
+// ---------- GLSL templates -------------------------------------------------
+// NUM_LAYER is injected at compile time via template literal so we can halve
+// layer count on low-end devices without rewriting the entire shader.
+
+const buildVertexShader = () => `
 attribute vec2 uv;
 attribute vec2 position;
 
@@ -18,8 +22,8 @@ void main() {
 }
 `;
 
-const fragmentShader = `
-precision highp float;
+const buildFragmentShader = (numLayers: number, mediump: boolean) => `
+precision ${mediump ? 'mediump' : 'highp'} float;
 
 uniform float uTime;
 uniform vec3 uResolution;
@@ -42,7 +46,7 @@ uniform bool uTransparent;
 
 varying vec2 vUv;
 
-#define NUM_LAYER 4.0
+#define NUM_LAYER ${numLayers.toFixed(1)}
 #define STAR_COLOR_CUTOFF 0.2
 #define MAT45 mat2(0.7071, -0.7071, 0.7071, 0.7071)
 #define PERIOD 3.0
@@ -174,6 +178,8 @@ void main() {
 }
 `;
 
+// ---------- Types ----------------------------------------------------------
+
 interface GalaxyProps {
   focal?: [number, number];
   rotation?: [number, number];
@@ -193,6 +199,10 @@ interface GalaxyProps {
   transparent?: boolean;
   style?: React.CSSProperties;
   className?: string;
+  /** Number of depth layers for the star field. Default 4. Pass 2 for low-end devices. */
+  numLayers?: number;
+  /** Use mediump float precision in the shader — faster on mobile GPUs. Default false. */
+  mediump?: boolean;
 }
 
 export default function Galaxy({
@@ -214,12 +224,14 @@ export default function Galaxy({
   transparent = true,
   style,
   className,
+  numLayers = 4,
+  mediump = false,
 }: GalaxyProps) {
   const ctnDom = useRef<HTMLDivElement>(null);
-  const targetMousePos = useRef({ x: 0.5, y: 0.5 });
-  const smoothMousePos = useRef({ x: 0.5, y: 0.5 });
-  const targetMouseActive = useRef(0.0);
-  const smoothMouseActive = useRef(0.0);
+  const targetMousePos   = useRef({ x: 0.5, y: 0.5 });
+  const smoothMousePos   = useRef({ x: 0.5, y: 0.5 });
+  const targetMouseActive  = useRef(0.0);
+  const smoothMouseActive  = useRef(0.0);
 
   useEffect(() => {
     if (!ctnDom.current) return;
@@ -253,29 +265,27 @@ export default function Galaxy({
 
     const geometry = new Triangle(gl);
     program = new Program(gl, {
-      vertex: vertexShader,
-      fragment: fragmentShader,
+      vertex: buildVertexShader(),
+      fragment: buildFragmentShader(numLayers, mediump),
       uniforms: {
-        uTime: { value: 0 },
-        uResolution: {
-          value: new Color(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height),
-        },
-        uFocal: { value: new Float32Array(focal) },
-        uRotation: { value: new Float32Array(rotation) },
-        uStarSpeed: { value: starSpeed },
-        uDensity: { value: density },
-        uHueShift: { value: hueShift },
-        uSpeed: { value: speed },
-        uMouse: { value: new Float32Array([smoothMousePos.current.x, smoothMousePos.current.y]) },
-        uGlowIntensity: { value: glowIntensity },
-        uSaturation: { value: saturation },
-        uMouseRepulsion: { value: mouseRepulsion },
-        uTwinkleIntensity: { value: twinkleIntensity },
-        uRotationSpeed: { value: rotationSpeed },
-        uRepulsionStrength: { value: repulsionStrength },
-        uMouseActiveFactor: { value: 0.0 },
-        uAutoCenterRepulsion: { value: autoCenterRepulsion },
-        uTransparent: { value: transparent },
+        uTime:               { value: 0 },
+        uResolution:         { value: new Color(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height) },
+        uFocal:              { value: new Float32Array(focal) },
+        uRotation:           { value: new Float32Array(rotation) },
+        uStarSpeed:          { value: starSpeed },
+        uDensity:            { value: density },
+        uHueShift:           { value: hueShift },
+        uSpeed:              { value: speed },
+        uMouse:              { value: new Float32Array([smoothMousePos.current.x, smoothMousePos.current.y]) },
+        uGlowIntensity:      { value: glowIntensity },
+        uSaturation:         { value: saturation },
+        uMouseRepulsion:     { value: mouseRepulsion },
+        uTwinkleIntensity:   { value: twinkleIntensity },
+        uRotationSpeed:      { value: rotationSpeed },
+        uRepulsionStrength:  { value: repulsionStrength },
+        uMouseActiveFactor:  { value: 0.0 },
+        uAutoCenterRepulsion:{ value: autoCenterRepulsion },
+        uTransparent:        { value: transparent },
       },
     });
 
@@ -290,12 +300,12 @@ export default function Galaxy({
       }
 
       const lerpFactor = 0.05;
-      smoothMousePos.current.x += (targetMousePos.current.x - smoothMousePos.current.x) * lerpFactor;
-      smoothMousePos.current.y += (targetMousePos.current.y - smoothMousePos.current.y) * lerpFactor;
-      smoothMouseActive.current += (targetMouseActive.current - smoothMouseActive.current) * lerpFactor;
+      smoothMousePos.current.x   += (targetMousePos.current.x   - smoothMousePos.current.x)   * lerpFactor;
+      smoothMousePos.current.y   += (targetMousePos.current.y   - smoothMousePos.current.y)   * lerpFactor;
+      smoothMouseActive.current  += (targetMouseActive.current  - smoothMouseActive.current)   * lerpFactor;
 
-      program.uniforms.uMouse.value[0] = smoothMousePos.current.x;
-      program.uniforms.uMouse.value[1] = smoothMousePos.current.y;
+      program.uniforms.uMouse.value[0]       = smoothMousePos.current.x;
+      program.uniforms.uMouse.value[1]       = smoothMousePos.current.y;
       program.uniforms.uMouseActiveFactor.value = smoothMouseActive.current;
 
       renderer.render({ scene: mesh });
@@ -307,7 +317,7 @@ export default function Galaxy({
       const rect = ctn.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = 1.0 - (e.clientY - rect.top) / rect.height;
-      targetMousePos.current = { x, y };
+      targetMousePos.current   = { x, y };
       targetMouseActive.current = 1.0;
     }
 
@@ -333,7 +343,8 @@ export default function Galaxy({
   }, [
     focal, rotation, starSpeed, density, hueShift, disableAnimation,
     speed, mouseInteraction, glowIntensity, saturation, mouseRepulsion,
-    twinkleIntensity, rotationSpeed, repulsionStrength, autoCenterRepulsion, transparent,
+    twinkleIntensity, rotationSpeed, repulsionStrength, autoCenterRepulsion,
+    transparent, numLayers, mediump,
   ]);
 
   return <div ref={ctnDom} className={`galaxy-container${className ? ` ${className}` : ''}`} style={style} />;

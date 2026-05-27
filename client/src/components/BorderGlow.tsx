@@ -38,7 +38,7 @@ function buildGradientVars(colors: string[]): Record<string, string> {
 }
 
 function easeOutCubic(x: number) { return 1 - Math.pow(1 - x, 3); }
-function easeInCubic(x: number) { return x * x * x; }
+function easeInCubic(x: number)  { return x * x * x; }
 
 interface AnimateValueOpts {
   start?: number;
@@ -75,6 +75,9 @@ interface BorderGlowProps {
   animated?: boolean;
   colors?: string[];
   fillOpacity?: number;
+  /** When true, pointer tracking is disabled and the glow stays static.
+   *  Use this on low-end devices to eliminate onPointerMove overhead. */
+  disableTracking?: boolean;
 }
 
 const BorderGlow = ({
@@ -90,8 +93,13 @@ const BorderGlow = ({
   animated = false,
   colors = ['#c084fc', '#f472b6', '#38bdf8'],
   fillOpacity = 0.5,
+  disableTracking = false,
 }: BorderGlowProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
+  // RAF handle — used to coalesce multiple pointer events into a single frame update
+  const rafHandleRef = useRef<number | null>(null);
+  // Latest pointer coords — captured synchronously, applied in RAF callback
+  const pendingCoordsRef = useRef<{ x: number; y: number } | null>(null);
 
   const getCenterOfElement = useCallback((el: HTMLDivElement) => {
     const { width, height } = el.getBoundingClientRect();
@@ -120,23 +128,53 @@ const BorderGlow = ({
     return degrees;
   }, [getCenterOfElement]);
 
-  const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+  const applyCoords = useCallback((x: number, y: number) => {
     const card = cardRef.current;
     if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const edge = getEdgeProximity(card, x, y);
+    const edge  = getEdgeProximity(card, x, y);
     const angle = getCursorAngle(card, x, y);
     card.style.setProperty('--edge-proximity', `${(edge * 100).toFixed(3)}`);
     card.style.setProperty('--cursor-angle', `${angle.toFixed(3)}deg`);
   }, [getEdgeProximity, getCursorAngle]);
 
+  const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (disableTracking) return;
+
+    const card = cardRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // Store latest coords — do NOT apply yet (coalesce multiple events per frame)
+    pendingCoordsRef.current = { x, y };
+
+    if (rafHandleRef.current === null) {
+      // Schedule a single style update for the next paint
+      rafHandleRef.current = requestAnimationFrame(() => {
+        rafHandleRef.current = null;
+        if (pendingCoordsRef.current) {
+          applyCoords(pendingCoordsRef.current.x, pendingCoordsRef.current.y);
+          pendingCoordsRef.current = null;
+        }
+      });
+    }
+  }, [disableTracking, applyCoords]);
+
+  // Cancel pending RAF on unmount to prevent stale updates
+  useEffect(() => {
+    return () => {
+      if (rafHandleRef.current !== null) {
+        cancelAnimationFrame(rafHandleRef.current);
+      }
+    };
+  }, []);
+
   useEffect(() => {
     if (!animated || !cardRef.current) return;
     const card = cardRef.current;
     const angleStart = 110;
-    const angleEnd = 465;
+    const angleEnd   = 465;
     card.classList.add('sweep-active');
     card.style.setProperty('--cursor-angle', `${angleStart}deg`);
 
@@ -161,12 +199,12 @@ const BorderGlow = ({
       onPointerMove={handlePointerMove}
       className={`border-glow-card ${className}`}
       style={{
-        '--card-bg': backgroundColor,
+        '--card-bg':          backgroundColor,
         '--edge-sensitivity': edgeSensitivity,
-        '--border-radius': `${borderRadius}px`,
-        '--glow-padding': `${glowRadius}px`,
-        '--cone-spread': coneSpread,
-        '--fill-opacity': fillOpacity,
+        '--border-radius':    `${borderRadius}px`,
+        '--glow-padding':     `${glowRadius}px`,
+        '--cone-spread':      coneSpread,
+        '--fill-opacity':     fillOpacity,
         ...glowVars,
         ...buildGradientVars(colors),
       } as React.CSSProperties}
