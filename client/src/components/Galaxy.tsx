@@ -337,7 +337,7 @@ export default function Galaxy({
     focal, rotation, starSpeed, density, hueShift, disableAnimation,
     speed, mouseInteraction, glowIntensity, saturation, mouseRepulsion,
     twinkleIntensity, rotationSpeed, repulsionStrength, autoCenterRepulsion,
-    transparent, numLayers, mediump,
+    transparent, numLayers,
   ]);
 
   return <div ref={ctnDom} className={`galaxy-container${className ? ` ${className}` : ''}`} style={style} />;
