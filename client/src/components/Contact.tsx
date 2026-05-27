@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiMail } from 'react-icons/fi';
 import { FaLinkedin, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa6';
-import RippleGrid from './RippleGrid';
 import { useDeviceCapability } from '@/hooks/useDeviceCapability';
 
 const WorldMap = dynamic(() => import('./WorldMap'), { ssr: false });
@@ -53,22 +52,7 @@ const Contact = () => {
 
   return (
     <section id="contact" className="w-full py-24 px-6 md:px-12 bg-transparent text-white font-sans relative overflow-hidden">
-      {/* RippleGrid background */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <RippleGrid
-          enableRainbow={false}
-          gridColor="#06b6d4"
-          rippleIntensity={0.04}
-          gridSize={8}
-          gridThickness={20}
-          fadeDistance={1.8}
-          vignetteStrength={2.5}
-          glowIntensity={0.08}
-          opacity={0.25}
-          mouseInteraction={false}
-          targetFPS={isLowEnd ? 30 : 60}
-        />
-      </div>
+
       {/* Background glow */}
       <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[120px] pointer-events-none z-0" />
       <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-cyan-900/10 rounded-full blur-[100px] pointer-events-none z-0" />
